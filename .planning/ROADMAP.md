@@ -61,11 +61,11 @@ Plans:
   2. User can select/deselect all videos on current page with one click
   3. Selection count displays total selected videos
   4. Selection persists when loading more videos
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] 03-01: Video selection UI with checkboxes and state management
-- [ ] 03-02: Select all/none controls with persistent selection
+- [ ] 03-01-PLAN.md — useVideoSelection hook with sessionStorage persistence + VideoCard checkbox integration
+- [ ] 03-02-PLAN.md — SelectionToolbar with select all/none + VideoList and App wiring
 
 ### Phase 4: Transcript Extraction
 **Goal**: System can extract YouTube captions for selected videos with graceful handling of unavailable captions
