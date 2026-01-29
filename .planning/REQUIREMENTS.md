@@ -32,9 +32,9 @@
 
 ### Configuration
 
-- [ ] **CONF-01**: User provides their own Anthropic API key via the UI
-- [ ] **CONF-02**: User provides their own YouTube Data API key via the UI
-- [ ] **CONF-03**: API keys stored in session only (not persisted)
+- [x] **CONF-01**: User provides their own Anthropic API key via the UI
+- [x] **CONF-02**: User provides their own YouTube Data API key via the UI
+- [x] **CONF-03**: API keys stored in session only (not persisted)
 
 ## v2 Requirements
 
@@ -68,9 +68,9 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CONF-01 | Phase 1 | Pending |
-| CONF-02 | Phase 1 | Pending |
-| CONF-03 | Phase 1 | Pending |
+| CONF-01 | Phase 1 | Complete |
+| CONF-02 | Phase 1 | Complete |
+| CONF-03 | Phase 1 | Complete |
 | CHAN-01 | Phase 2 | Pending |
 | CHAN-02 | Phase 2 | Pending |
 | CHAN-03 | Phase 2 | Pending |

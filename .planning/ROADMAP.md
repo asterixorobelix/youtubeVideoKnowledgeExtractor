@@ -12,7 +12,7 @@ This roadmap delivers a client-side web application that extracts YouTube channe
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation & Configuration** - Project scaffold, API key management, development environment
+- [x] **Phase 1: Foundation & Configuration** - Project scaffold, API key management, development environment
 - [ ] **Phase 2: Channel Video Listing** - YouTube Data API integration with quota-aware pagination
 - [ ] **Phase 3: Video Selection** - Multi-video selection UI with batch controls
 - [ ] **Phase 4: Transcript Extraction** - Caption fetching with availability validation
@@ -33,8 +33,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans:** 2 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Project scaffold with Vite + React + TypeScript + shadcn/ui + Tailwind CSS
-- [ ] 01-02-PLAN.md — API key input components with session storage and masking
+- [x] 01-01-PLAN.md — Project scaffold with Vite + React + TypeScript + shadcn/ui + Tailwind CSS
+- [x] 01-02-PLAN.md — API key input components with session storage and masking
 
 ### Phase 2: Channel Video Listing
 **Goal**: Users can input a YouTube channel URL and see paginated video listings with metadata
@@ -124,7 +124,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Configuration | 0/2 | Not started | - |
+| 1. Foundation & Configuration | 2/2 | Complete | 2026-01-29 |
 | 2. Channel Video Listing | 0/3 | Not started | - |
 | 3. Video Selection | 0/2 | Not started | - |
 | 4. Transcript Extraction | 0/3 | Not started | - |
