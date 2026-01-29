@@ -1,5 +1,16 @@
 import type { ChannelIdentifier } from '@/types/youtube'
 
+const VALID_YOUTUBE_HOSTS = ['youtube.com', 'www.youtube.com', 'm.youtube.com']
+const CHANNEL_ID_LENGTH = 24
+
+/**
+ * Extract the segment after a prefix in a pathname
+ * e.g., extractSegment('/channel/UC123', '/channel/') -> 'UC123'
+ */
+function extractPathSegment(path: string, prefix: string): string {
+  return path.split('/')[2]
+}
+
 export function parseChannelUrl(input: string): ChannelIdentifier {
   // Handle empty input
   if (!input || input.trim() === '') {
@@ -13,8 +24,7 @@ export function parseChannelUrl(input: string): ChannelIdentifier {
     const url = new URL(trimmedInput)
 
     // Validate it's a YouTube URL
-    const validHosts = ['youtube.com', 'www.youtube.com', 'm.youtube.com']
-    if (!validHosts.includes(url.hostname)) {
+    if (!VALID_YOUTUBE_HOSTS.includes(url.hostname)) {
       throw new Error('Please enter a valid YouTube URL')
     }
 
@@ -34,20 +44,17 @@ export function parseChannelUrl(input: string): ChannelIdentifier {
 
     // /channel/ format: youtube.com/channel/UCaBcDeFgHiJkLmN123456
     if (path.startsWith('/channel/')) {
-      const channelId = path.split('/')[2]
-      return { type: 'channelId', value: channelId }
+      return { type: 'channelId', value: extractPathSegment(path, '/channel/') }
     }
 
     // /c/ format: youtube.com/c/CustomName
     if (path.startsWith('/c/')) {
-      const customUrl = path.split('/')[2]
-      return { type: 'customUrl', value: customUrl }
+      return { type: 'customUrl', value: extractPathSegment(path, '/c/') }
     }
 
     // /user/ format: youtube.com/user/UserName
     if (path.startsWith('/user/')) {
-      const username = path.split('/')[2]
-      return { type: 'username', value: username }
+      return { type: 'username', value: extractPathSegment(path, '/user/') }
     }
 
     throw new Error('Unsupported YouTube URL format. Please use @handle, /channel/, /c/, or /user/ format')
@@ -63,7 +70,7 @@ export function parseChannelUrl(input: string): ChannelIdentifier {
     }
 
     // Bare channel ID (starts with UC, 24 characters)
-    if (trimmedInput.startsWith('UC') && trimmedInput.length === 24) {
+    if (trimmedInput.startsWith('UC') && trimmedInput.length === CHANNEL_ID_LENGTH) {
       return { type: 'channelId', value: trimmedInput }
     }
 
