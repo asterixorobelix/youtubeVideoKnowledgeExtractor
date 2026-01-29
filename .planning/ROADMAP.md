@@ -30,12 +30,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. User can input and save YouTube Data API key in the UI (session-only, not persisted)
   3. API keys are masked in the UI after entry
   4. Development environment runs locally with hot reload
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] 01-01: Project scaffold with Vite + React + TypeScript
-- [ ] 01-02: API key input components with session storage
-- [ ] 01-03: UI component library setup (shadcn/ui + Tailwind CSS)
+- [ ] 01-01-PLAN.md — Project scaffold with Vite + React + TypeScript + shadcn/ui + Tailwind CSS
+- [ ] 01-02-PLAN.md — API key input components with session storage and masking
 
 ### Phase 2: Channel Video Listing
 **Goal**: Users can input a YouTube channel URL and see paginated video listings with metadata
@@ -125,7 +124,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Configuration | 0/3 | Not started | - |
+| 1. Foundation & Configuration | 0/2 | Not started | - |
 | 2. Channel Video Listing | 0/3 | Not started | - |
 | 3. Video Selection | 0/2 | Not started | - |
 | 4. Transcript Extraction | 0/3 | Not started | - |
