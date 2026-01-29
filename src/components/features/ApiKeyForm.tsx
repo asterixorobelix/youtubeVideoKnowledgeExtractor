@@ -47,7 +47,7 @@ export function ApiKeyForm() {
       <CardHeader>
         <CardTitle>API Configuration</CardTitle>
         <p className="text-sm text-muted-foreground">
-          Your API keys are stored in session storage only and will be cleared when you close this tab.
+          Your keys live in session storage only — poof, gone when you close the tab. No snooping.
         </p>
       </CardHeader>
       <CardContent>
