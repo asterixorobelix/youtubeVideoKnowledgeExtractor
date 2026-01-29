@@ -14,12 +14,12 @@ const STORAGE_KEY = 'api-keys'
 
 const getInitialKeys = (): ApiKeys => {
   try {
-    const stored = sessionStorage.getItem(STORAGE_KEY)
+    const stored = localStorage.getItem(STORAGE_KEY)
     if (stored) {
       return JSON.parse(stored)
     }
   } catch (error) {
-    console.error('Failed to load API keys from sessionStorage:', error)
+    console.error('Failed to load API keys from localStorage:', error)
   }
   return { anthropicKey: '', youtubeKey: '' }
 }
@@ -29,9 +29,9 @@ export function ApiKeysProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(keys))
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(keys))
     } catch (error) {
-      console.error('Failed to save API keys to sessionStorage:', error)
+      console.error('Failed to save API keys to localStorage:', error)
     }
   }, [keys])
 
