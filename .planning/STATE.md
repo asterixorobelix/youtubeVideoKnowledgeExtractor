@@ -9,19 +9,19 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 
 ## Current Position
 
-Phase: 3 of 6 (Video Selection) — IN PROGRESS
-Plan: 1 of 2 in current phase
-Status: In progress
-Last activity: 2026-01-29 — Completed 03-01-PLAN.md (Selection foundation)
+Phase: 3 of 6 (Video Selection) — COMPLETE
+Plan: 2 of 2 in current phase
+Status: Phase complete
+Last activity: 2026-01-29 — Completed 03-02-PLAN.md (Bulk selection UI)
 
-Progress: [████░░░░░░] 35% (6/17 plans complete)
+Progress: [█████░░░░░] 41% (7/17 plans complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 6
-- Average duration: 4.5 min
-- Total execution time: 0.45 hours
+- Total plans completed: 7
+- Average duration: 4.0 min
+- Total execution time: 0.47 hours
 
 **By Phase:**
 
@@ -29,14 +29,14 @@ Progress: [████░░░░░░] 35% (6/17 plans complete)
 |-------|-------|-------|----------|
 | 1. Foundation & Configuration | 2/2 | 12.5 min | 6.3 min |
 | 2. Channel Video Listing | 3/3 | 12.7 min | 4.2 min |
-| 3. Video Selection | 1/2 | 3 min | 3 min |
+| 3. Video Selection | 2/2 | 4 min | 2 min |
 | 4. Transcript Extraction | 0/3 | 0 min | - |
 | 5. Claude Summarization | 0/4 | 0 min | - |
 | 6. Export & Download | 0/3 | 0 min | - |
 
 **Recent Trend:**
-- Last 5 plans: 02-01 (2.7 min), 02-02 (2 min), 02-03 (8 min), 03-01 (3 min)
-- Trend: Stable
+- Last 5 plans: 02-02 (2 min), 02-03 (8 min), 03-01 (3 min), 03-02 (1 min)
+- Trend: Accelerating
 
 *Updated after each plan completion*
 
@@ -84,6 +84,12 @@ Recent decisions affecting current work:
 - Auto-clear selection on channel switch detected via video ID comparison
 - Configure vitest with jsdom environment for component testing
 
+**From 03-02:**
+- Use Radix UI Checkbox checked="indeterminate" prop for partial selection state (not DOM ref approach)
+- Prune stale selections continuously in useVideoSelection via useEffect filtering
+- SelectionToolbar returns null when totalCount is 0 (no videos loaded)
+- Clear selection triggers when checkbox clicked in all-selected or indeterminate state
+
 ### Pending Todos
 
 None yet.
@@ -96,10 +102,10 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-29T19:24:02Z
-Stopped at: Completed 03-01-PLAN.md
+Last session: 2026-01-29T19:28:49Z
+Stopped at: Completed 03-02-PLAN.md (Phase 3 complete)
 Resume file: None
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-29T21:55:00Z*
+*Last updated: 2026-01-29T19:28:49Z*
