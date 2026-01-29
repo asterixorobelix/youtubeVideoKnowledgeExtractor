@@ -14,8 +14,8 @@
 
 ### Processing
 
-- [ ] **PROC-01**: User can select individual videos via checkboxes
-- [ ] **PROC-02**: User can select/deselect all videos on current page
+- [x] **PROC-01**: User can select individual videos via checkboxes
+- [x] **PROC-02**: User can select/deselect all videos on current page
 - [ ] **PROC-03**: System extracts YouTube captions for selected videos
 - [ ] **PROC-04**: System skips videos without captions with clear indicator
 - [ ] **PROC-05**: System sends transcripts to Claude API for structured summarization
@@ -75,8 +75,8 @@
 | CHAN-02 | Phase 2 | Complete |
 | CHAN-03 | Phase 2 | Complete |
 | CHAN-04 | Phase 2 | Complete |
-| PROC-01 | Phase 3 | Pending |
-| PROC-02 | Phase 3 | Pending |
+| PROC-01 | Phase 3 | Complete |
+| PROC-02 | Phase 3 | Complete |
 | PROC-03 | Phase 4 | Pending |
 | PROC-04 | Phase 4 | Pending |
 | PROC-05 | Phase 5 | Pending |

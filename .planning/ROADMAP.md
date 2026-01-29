@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation & Configuration** - Project scaffold, API key management, development environment
 - [x] **Phase 2: Channel Video Listing** - YouTube Data API integration with quota-aware pagination
-- [ ] **Phase 3: Video Selection** - Multi-video selection UI with batch controls
+- [x] **Phase 3: Video Selection** - Multi-video selection UI with batch controls
 - [ ] **Phase 4: Transcript Extraction** - Caption fetching with availability validation
 - [ ] **Phase 5: Claude Summarization** - Core processing with chunking, cost estimation, and progress tracking
 - [ ] **Phase 6: Export & Download** - Markdown generation and zip download
@@ -64,8 +64,8 @@ Plans:
 **Plans:** 2 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — useVideoSelection hook with sessionStorage persistence + VideoCard checkbox integration
-- [ ] 03-02-PLAN.md — SelectionToolbar with select all/none + VideoList and App wiring
+- [x] 03-01-PLAN.md — useVideoSelection hook with sessionStorage persistence + VideoCard checkbox integration
+- [x] 03-02-PLAN.md — SelectionToolbar with select all/none + VideoList and App wiring
 
 ### Phase 4: Transcript Extraction
 **Goal**: System can extract YouTube captions for selected videos with graceful handling of unavailable captions
@@ -126,7 +126,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 |-------|----------------|--------|-----------|
 | 1. Foundation & Configuration | 2/2 | Complete | 2026-01-29 |
 | 2. Channel Video Listing | 3/3 | Complete | 2026-01-29 |
-| 3. Video Selection | 0/2 | Not started | - |
+| 3. Video Selection | 2/2 | Complete | 2026-01-29 |
 | 4. Transcript Extraction | 0/3 | Not started | - |
 | 5. Claude Summarization | 0/4 | Not started | - |
 | 6. Export & Download | 0/3 | Not started | - |
