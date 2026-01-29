@@ -45,12 +45,12 @@ Plans:
   2. App displays video list with title, thumbnail, duration, and upload date
   3. Video list shows 50 videos per page with "load more" button
   4. App handles quota exhaustion with clear error message showing reset time
-**Plans**: TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] 02-01: YouTube Data API integration with channel URL resolution
-- [ ] 02-02: Video listing UI with pagination and metadata display
-- [ ] 02-03: Quota management with client-side caching
+- [ ] 02-01-PLAN.md — TDD: YouTube channel URL parser and core types
+- [ ] 02-02-PLAN.md — YouTube API service with caching and quota tracking
+- [ ] 02-03-PLAN.md — Channel input UI, video list, and pagination
 
 ### Phase 3: Video Selection
 **Goal**: Users can select individual videos or multiple videos for batch processing
