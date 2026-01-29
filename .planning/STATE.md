@@ -5,38 +5,38 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** Extract structured knowledge from YouTube video transcripts quickly and in bulk
-**Current focus:** Phase 1 complete, ready for Phase 2
+**Current focus:** Phase 2 in progress (2 of 3 plans complete)
 
 ## Current Position
 
 Phase: 2 of 6 (Channel Video Listing) — IN PROGRESS
-Plan: 1 of 3 in current phase
+Plan: 2 of 3 in current phase
 Status: In progress
-Last activity: 2026-01-29 — Completed 02-01-PLAN.md (YouTube URL parser)
+Last activity: 2026-01-29 — Completed 02-02-PLAN.md (YouTube API service)
 
-Progress: [██░░░░░░░░] 18% (3/17 plans complete)
+Progress: [██░░░░░░░░] 24% (4/17 plans complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 3
-- Average duration: 5.2 min
-- Total execution time: 0.26 hours
+- Total plans completed: 4
+- Average duration: 4.4 min
+- Total execution time: 0.29 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1. Foundation & Configuration | 2/2 | 12.5 min | 6.3 min |
-| 2. Channel Video Listing | 1/3 | 2.7 min | 2.7 min |
+| 2. Channel Video Listing | 2/3 | 4.7 min | 2.4 min |
 | 3. Video Selection | 0/2 | 0 min | - |
 | 4. Transcript Extraction | 0/3 | 0 min | - |
 | 5. Claude Summarization | 0/4 | 0 min | - |
 | 6. Export & Download | 0/3 | 0 min | - |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (4.5 min), 01-02 (8 min), 02-01 (2.7 min)
-- Trend: Improving (TDD efficiency)
+- Last 5 plans: 01-01 (4.5 min), 01-02 (8 min), 02-01 (2.7 min), 02-02 (2 min)
+- Trend: Excellent (2 min for API service layer)
 
 *Updated after each plan completion*
 
@@ -68,6 +68,12 @@ Recent decisions affecting current work:
 - Support all YouTube URL formats (@handle, /c/, /channel/, /user/) plus bare inputs
 - Follow TDD methodology (RED-GREEN-REFACTOR) for robust feature development
 
+**From 02-02:**
+- Use native Intl.DateTimeFormat instead of date-fns for PT midnight calculation (avoid dependencies)
+- Cache channels for 24h, videos for 1h to balance freshness and quota conservation
+- Track quota in sessionStorage (per-session), exhaustion flag persists across refreshes
+- Use channels.list (1 unit) instead of search.list (100 units) for channel resolution
+
 ### Pending Todos
 
 None yet.
@@ -81,10 +87,10 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-29T18:34:59Z
-Stopped at: Completed 02-01-PLAN.md (YouTube URL parser)
+Last session: 2026-01-29T18:39:23Z
+Stopped at: Completed 02-02-PLAN.md (YouTube API service)
 Resume file: None
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-29T18:34:59Z*
+*Last updated: 2026-01-29T18:39:23Z*
