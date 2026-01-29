@@ -1,45 +1,28 @@
-import { useState, useCallback, useEffect, useSyncExternalStore } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 
 const STORAGE_KEY = 'selected-videos'
 
 /**
- * Custom hook for syncing a value with sessionStorage
+ * Read initial value from sessionStorage (called once on mount)
  */
-function useSessionStorage<T>(key: string, initialValue: T): [T, (value: T) => void] {
-  // Subscribe to storage events
-  const subscribe = useCallback((callback: () => void) => {
-    window.addEventListener('storage', callback)
-    return () => window.removeEventListener('storage', callback)
-  }, [])
+function readSessionStorage<T>(key: string, initialValue: T): T {
+  try {
+    const item = sessionStorage.getItem(key)
+    return item ? JSON.parse(item) : initialValue
+  } catch {
+    return initialValue
+  }
+}
 
-  // Get current value from sessionStorage
-  const getSnapshot = useCallback((): T => {
-    try {
-      const item = sessionStorage.getItem(key)
-      return item ? JSON.parse(item) : initialValue
-    } catch {
-      return initialValue
-    }
-  }, [key, initialValue])
-
-  // Server-side snapshot (SSR fallback)
-  const getServerSnapshot = useCallback(() => initialValue, [initialValue])
-
-  // Use useSyncExternalStore to sync with sessionStorage
-  const storedValue = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
-
-  // Set value in sessionStorage and trigger storage event
-  const setValue = useCallback((value: T) => {
-    try {
-      sessionStorage.setItem(key, JSON.stringify(value))
-      // Manually dispatch storage event for same-window updates
-      window.dispatchEvent(new Event('storage'))
-    } catch (error) {
-      console.error('Error writing to sessionStorage:', error)
-    }
-  }, [key])
-
-  return [storedValue, setValue]
+/**
+ * Write value to sessionStorage
+ */
+function writeSessionStorage<T>(key: string, value: T): void {
+  try {
+    sessionStorage.setItem(key, JSON.stringify(value))
+  } catch (error) {
+    console.error('Error writing to sessionStorage:', error)
+  }
 }
 
 interface UseVideoSelectionReturn {
@@ -59,16 +42,22 @@ interface UseVideoSelectionReturn {
  * @returns Selection state and controls
  */
 export function useVideoSelection(availableVideoIds: string[]): UseVideoSelectionReturn {
-  // Load initial selection from sessionStorage
-  const [storedArray, setStoredArray] = useSessionStorage<string[]>(STORAGE_KEY, [])
+  // Initialize Set from sessionStorage (read once on mount)
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(
+    () => new Set(readSessionStorage<string[]>(STORAGE_KEY, []))
+  )
 
-  // Convert stored array to Set for O(1) lookup
-  const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set(storedArray))
+  // Track whether this is the initial mount to avoid writing on first render
+  const isInitialMount = useRef(true)
 
-  // Sync selectedIds to sessionStorage whenever it changes
+  // Sync selectedIds to sessionStorage whenever it changes (skip initial mount)
   useEffect(() => {
-    setStoredArray(Array.from(selectedIds))
-  }, [selectedIds, setStoredArray])
+    if (isInitialMount.current) {
+      isInitialMount.current = false
+      return
+    }
+    writeSessionStorage(STORAGE_KEY, Array.from(selectedIds))
+  }, [selectedIds])
 
   // Clear stale selection when video list completely changes (new channel)
   // Prunes any selected IDs not in current video list

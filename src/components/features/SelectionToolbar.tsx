@@ -47,7 +47,7 @@ export function SelectionToolbar({
         />
         <span className="text-sm font-medium">
           {noneSelected
-            ? 'Select videos'
+            ? 'Select all videos'
             : `${selectedCount} of ${totalCount} selected`}
         </span>
       </div>
