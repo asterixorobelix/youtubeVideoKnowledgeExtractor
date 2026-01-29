@@ -7,7 +7,7 @@ const CHANNEL_ID_LENGTH = 24
  * Extract the segment after a prefix in a pathname
  * e.g., extractSegment('/channel/UC123', '/channel/') -> 'UC123'
  */
-function extractPathSegment(path: string, prefix: string): string {
+function extractPathSegment(path: string): string {
   return path.split('/')[2]
 }
 
@@ -44,17 +44,17 @@ export function parseChannelUrl(input: string): ChannelIdentifier {
 
     // /channel/ format: youtube.com/channel/UCaBcDeFgHiJkLmN123456
     if (path.startsWith('/channel/')) {
-      return { type: 'channelId', value: extractPathSegment(path, '/channel/') }
+      return { type: 'channelId', value: extractPathSegment(path) }
     }
 
     // /c/ format: youtube.com/c/CustomName
     if (path.startsWith('/c/')) {
-      return { type: 'customUrl', value: extractPathSegment(path, '/c/') }
+      return { type: 'customUrl', value: extractPathSegment(path) }
     }
 
     // /user/ format: youtube.com/user/UserName
     if (path.startsWith('/user/')) {
-      return { type: 'username', value: extractPathSegment(path, '/user/') }
+      return { type: 'username', value: extractPathSegment(path) }
     }
 
     throw new Error('Unsupported YouTube URL format. Please use @handle, /channel/, /c/, or /user/ format')

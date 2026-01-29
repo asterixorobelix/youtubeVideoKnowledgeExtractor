@@ -24,52 +24,6 @@ function getPTDate(): string {
 function getNextMidnightPT(): Date {
   const now = new Date()
 
-  // Get current time in PT timezone
-  const ptFormatter = new Intl.DateTimeFormat('en-US', {
-    timeZone: 'America/Los_Angeles',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: false,
-  })
-
-  const ptParts = ptFormatter.formatToParts(now)
-  const ptTime: Record<string, string> = {}
-  ptParts.forEach((part) => {
-    if (part.type !== 'literal') {
-      ptTime[part.type] = part.value
-    }
-  })
-
-  // Create a date string for tomorrow at midnight PT
-  const year = parseInt(ptTime.year)
-  const month = parseInt(ptTime.month) - 1 // JS months are 0-indexed
-  const day = parseInt(ptTime.day)
-
-  // Create tomorrow's date at midnight PT
-  const tomorrowPT = new Date()
-  tomorrowPT.setFullYear(year, month, day + 1)
-  tomorrowPT.setHours(0, 0, 0, 0)
-
-  // Convert to PT timezone by parsing a string in PT
-  const tomorrowPTStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day + 1).padStart(2, '0')}T00:00:00`
-
-  // Create the date and adjust for PT offset
-  // Get the offset by comparing a known PT time
-  const testDate = new Date('2024-01-15T00:00:00') // Standard time reference
-  const testPTStr = new Intl.DateTimeFormat('en-US', {
-    timeZone: 'America/Los_Angeles',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false,
-  }).format(testDate)
-
   // Calculate midnight PT for tomorrow
   const tomorrow = new Date(now)
   tomorrow.setDate(tomorrow.getDate() + 1)
@@ -90,7 +44,8 @@ function getNextMidnightPT(): Date {
     }
   })
 
-  // Build ISO string for tomorrow midnight PT
+  // Build ISO string for tomorrow midnight PT (PT is UTC-8 in standard time, UTC-7 in DST)
+  // Using 08:00 UTC as a safe approximation for midnight PT
   const isoStr = `${tomorrowDate.year}-${tomorrowDate.month}-${tomorrowDate.day}T08:00:00.000Z`
   return new Date(isoStr)
 }
