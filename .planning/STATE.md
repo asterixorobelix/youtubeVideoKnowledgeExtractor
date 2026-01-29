@@ -9,34 +9,34 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 
 ## Current Position
 
-Phase: 1 of 6 (Foundation & Configuration) — COMPLETE
-Plan: 2 of 2 in current phase
-Status: Phase complete, pending verification
-Last activity: 2026-01-29 — Completed 01-02-PLAN.md (API key configuration)
+Phase: 2 of 6 (Channel Video Listing) — IN PROGRESS
+Plan: 1 of 3 in current phase
+Status: In progress
+Last activity: 2026-01-29 — Completed 02-01-PLAN.md (YouTube URL parser)
 
-Progress: [█░░░░░░░░░] 12% (2/17 plans complete)
+Progress: [██░░░░░░░░] 18% (3/17 plans complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 2
-- Average duration: 6.3 min
-- Total execution time: 0.21 hours
+- Total plans completed: 3
+- Average duration: 5.2 min
+- Total execution time: 0.26 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1. Foundation & Configuration | 2/2 | 12.5 min | 6.3 min |
-| 2. Channel Video Listing | 0/3 | 0 min | - |
+| 2. Channel Video Listing | 1/3 | 2.7 min | 2.7 min |
 | 3. Video Selection | 0/2 | 0 min | - |
 | 4. Transcript Extraction | 0/3 | 0 min | - |
 | 5. Claude Summarization | 0/4 | 0 min | - |
 | 6. Export & Download | 0/3 | 0 min | - |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (4.5 min), 01-02 (8 min)
-- Trend: Stable
+- Last 5 plans: 01-01 (4.5 min), 01-02 (8 min), 02-01 (2.7 min)
+- Trend: Improving (TDD efficiency)
 
 *Updated after each plan completion*
 
@@ -63,6 +63,11 @@ Recent decisions affecting current work:
 - Use React Hook Form + Zod for form validation
 - Use `import type` for TypeScript interfaces in Vite projects
 
+**From 02-01:**
+- Use vitest for testing (lightweight, fast, Vite-native)
+- Support all YouTube URL formats (@handle, /c/, /channel/, /user/) plus bare inputs
+- Follow TDD methodology (RED-GREEN-REFACTOR) for robust feature development
+
 ### Pending Todos
 
 None yet.
@@ -76,10 +81,10 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-29T17:55:00Z
-Stopped at: Phase 1 complete, pending verification
+Last session: 2026-01-29T18:34:59Z
+Stopped at: Completed 02-01-PLAN.md (YouTube URL parser)
 Resume file: None
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-29T17:55:00Z*
+*Last updated: 2026-01-29T18:34:59Z*
