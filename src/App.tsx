@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button'
 import { Settings } from 'lucide-react'
 
 function AppContent() {
-  const { hasKeys } = useApiKeys()
+  const { hasKeys, hasYoutubeKey } = useApiKeys()
   const [showSettings, setShowSettings] = useState(false)
   const {
     channel,
@@ -25,8 +25,8 @@ function AppContent() {
     loadMore,
   } = useChannelVideos()
 
-  // Show API key form if no keys configured OR if settings is opened
-  if (!hasKeys || showSettings) {
+  // Show API key form if no YouTube key configured OR if settings is opened
+  if (!hasYoutubeKey || showSettings) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
         <div className="w-full max-w-lg space-y-6">

@@ -2,16 +2,16 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { Eye, EyeOff } from 'lucide-react'
+import { Eye, EyeOff, ExternalLink } from 'lucide-react'
 import { useApiKeys } from '@/context/ApiKeysContext'
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form'
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage, FormDescription } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
 const formSchema = z.object({
-  anthropicKey: z.string().min(1, 'Anthropic API key is required'),
-  youtubeKey: z.string().min(1, 'YouTube API key is required'),
+  anthropicKey: z.string(),
+  youtubeKey: z.string(),
 })
 
 type FormData = z.infer<typeof formSchema>
@@ -75,6 +75,17 @@ export function ApiKeyForm() {
                       </button>
                     </div>
                   </FormControl>
+                  <FormDescription>
+                    Used to summarize transcripts with Claude.{' '}
+                    <a
+                      href="https://console.anthropic.com/settings/keys"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-primary hover:underline"
+                    >
+                      Get your key <ExternalLink size={12} />
+                    </a>
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -102,6 +113,27 @@ export function ApiKeyForm() {
                       </button>
                     </div>
                   </FormControl>
+                  <FormDescription>
+                    Used to look up channels and list videos.{' '}
+                    <a
+                      href="https://console.cloud.google.com/apis/credentials"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-primary hover:underline"
+                    >
+                      Get your key <ExternalLink size={12} />
+                    </a>
+                    {' '}&mdash; enable the{' '}
+                    <a
+                      href="https://console.cloud.google.com/apis/library/youtube.googleapis.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline"
+                    >
+                      YouTube Data API v3
+                    </a>
+                    {' '}first. Tip: under API restrictions, select "Restrict key" and choose only YouTube Data API v3.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

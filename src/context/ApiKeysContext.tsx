@@ -7,6 +7,8 @@ interface ApiKeysContextValue {
   setKeys: (keys: Partial<ApiKeys>) => void
   clearKeys: () => void
   hasKeys: boolean
+  hasYoutubeKey: boolean
+  hasAnthropicKey: boolean
 }
 
 const ApiKeysContext = createContext<ApiKeysContextValue | null>(null)
@@ -44,10 +46,12 @@ export function ApiKeysProvider({ children }: { children: ReactNode }) {
     setKeysState({ anthropicKey: '', youtubeKey: '' })
   }
 
-  const hasKeys = keys.anthropicKey.trim() !== '' && keys.youtubeKey.trim() !== ''
+  const hasYoutubeKey = keys.youtubeKey.trim() !== ''
+  const hasAnthropicKey = keys.anthropicKey.trim() !== ''
+  const hasKeys = hasYoutubeKey || hasAnthropicKey
 
   return (
-    <ApiKeysContext.Provider value={{ keys, setKeys, clearKeys, hasKeys }}>
+    <ApiKeysContext.Provider value={{ keys, setKeys, clearKeys, hasKeys, hasYoutubeKey, hasAnthropicKey }}>
       {children}
     </ApiKeysContext.Provider>
   )
