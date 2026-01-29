@@ -111,11 +111,14 @@ export function ApiKeyForm() {
               <Button type="submit" className="flex-1">
                 Save Keys
               </Button>
-              {hasKeys && (
-                <Button type="button" variant="outline" onClick={handleClearKeys}>
-                  Clear Keys
-                </Button>
-              )}
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleClearKeys}
+                disabled={!hasKeys}
+              >
+                Clear Keys
+              </Button>
             </div>
 
             {saveSuccess && (
