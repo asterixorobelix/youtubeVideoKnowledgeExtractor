@@ -76,12 +76,12 @@ Plans:
   2. Videos without captions display clear "No captions available" indicator
   3. Caption extraction happens in parallel for multiple videos (up to 5 concurrent)
   4. Failed caption extractions show specific error messages
-**Plans**: TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] 04-01: Serverless transcript proxy deployment (Vercel Edge or Cloudflare Worker)
-- [ ] 04-02: TranscriptService with caption availability validation
-- [ ] 04-03: Parallel fetching with error handling
+- [ ] 04-01-PLAN.md — Vercel Edge Function proxy for YouTube caption extraction
+- [ ] 04-02-PLAN.md — TDD: TranscriptService with concurrency control and error handling
+- [ ] 04-03-PLAN.md — useTranscriptExtraction hook + TranscriptStatus UI integration
 
 ### Phase 5: Claude Summarization
 **Goal**: System generates structured summaries from transcripts with cost estimation and progress tracking
