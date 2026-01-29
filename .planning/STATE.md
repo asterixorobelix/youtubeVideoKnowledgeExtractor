@@ -5,38 +5,38 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** Extract structured knowledge from YouTube video transcripts quickly and in bulk
-**Current focus:** Phase 2 in progress (2 of 3 plans complete)
+**Current focus:** Phase 2 complete, ready for Phase 3
 
 ## Current Position
 
-Phase: 2 of 6 (Channel Video Listing) — IN PROGRESS
-Plan: 2 of 3 in current phase
-Status: In progress
-Last activity: 2026-01-29 — Completed 02-02-PLAN.md (YouTube API service)
+Phase: 2 of 6 (Channel Video Listing) — COMPLETE
+Plan: 3 of 3 in current phase
+Status: Phase complete, verified
+Last activity: 2026-01-29 — Completed 02-03-PLAN.md (Channel input UI)
 
-Progress: [██░░░░░░░░] 24% (4/17 plans complete)
+Progress: [███░░░░░░░] 29% (5/17 plans complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 4
-- Average duration: 4.4 min
-- Total execution time: 0.29 hours
+- Total plans completed: 5
+- Average duration: 4.7 min
+- Total execution time: 0.39 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1. Foundation & Configuration | 2/2 | 12.5 min | 6.3 min |
-| 2. Channel Video Listing | 2/3 | 4.7 min | 2.4 min |
+| 2. Channel Video Listing | 3/3 | 12.7 min | 4.2 min |
 | 3. Video Selection | 0/2 | 0 min | - |
 | 4. Transcript Extraction | 0/3 | 0 min | - |
 | 5. Claude Summarization | 0/4 | 0 min | - |
 | 6. Export & Download | 0/3 | 0 min | - |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (4.5 min), 01-02 (8 min), 02-01 (2.7 min), 02-02 (2 min)
-- Trend: Excellent (2 min for API service layer)
+- Last 5 plans: 01-02 (8 min), 02-01 (2.7 min), 02-02 (2 min), 02-03 (8 min)
+- Trend: Stable
 
 *Updated after each plan completion*
 
@@ -74,6 +74,10 @@ Recent decisions affecting current work:
 - Track quota in sessionStorage (per-session), exhaustion flag persists across refreshes
 - Use channels.list (1 unit) instead of search.list (100 units) for channel resolution
 
+**From 02-03:**
+- API keys independently saveable — YouTube key alone enables channel browsing
+- Help links inline in form fields pointing to platform consoles
+
 ### Pending Todos
 
 None yet.
@@ -81,16 +85,15 @@ None yet.
 ### Blockers/Concerns
 
 **Research insights flagged for planning:**
-- Phase 2: YouTube API quota management requires aggressive client-side caching and quota-aware pagination from day one
 - Phase 4: 20-40% of YouTube videos lack captions—need graceful handling with clear UI indicators
 - Phase 5: Long videos (>1 hour) produce 50K-150K token transcripts requiring chunking strategy before MVP—this is blocking
 
 ## Session Continuity
 
-Last session: 2026-01-29T18:39:23Z
-Stopped at: Completed 02-02-PLAN.md (YouTube API service)
+Last session: 2026-01-29T21:55:00Z
+Stopped at: Phase 2 complete, verified
 Resume file: None
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-29T18:39:23Z*
+*Last updated: 2026-01-29T21:55:00Z*

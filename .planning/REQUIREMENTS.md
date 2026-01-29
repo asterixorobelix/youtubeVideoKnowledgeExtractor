@@ -7,10 +7,10 @@
 
 ### Channel Input
 
-- [ ] **CHAN-01**: User can paste a YouTube channel URL (supports @handle, /c/, /channel/, /user/ formats)
-- [ ] **CHAN-02**: App resolves any channel URL format to a channel ID
-- [ ] **CHAN-03**: App displays video list with title, thumbnail, duration, and upload date
-- [ ] **CHAN-04**: Video list paginates (50 per page) with "load more" button
+- [x] **CHAN-01**: User can paste a YouTube channel URL (supports @handle, /c/, /channel/, /user/ formats)
+- [x] **CHAN-02**: App resolves any channel URL format to a channel ID
+- [x] **CHAN-03**: App displays video list with title, thumbnail, duration, and upload date
+- [x] **CHAN-04**: Video list paginates (50 per page) with "load more" button
 
 ### Processing
 
@@ -71,10 +71,10 @@
 | CONF-01 | Phase 1 | Complete |
 | CONF-02 | Phase 1 | Complete |
 | CONF-03 | Phase 1 | Complete |
-| CHAN-01 | Phase 2 | Pending |
-| CHAN-02 | Phase 2 | Pending |
-| CHAN-03 | Phase 2 | Pending |
-| CHAN-04 | Phase 2 | Pending |
+| CHAN-01 | Phase 2 | Complete |
+| CHAN-02 | Phase 2 | Complete |
+| CHAN-03 | Phase 2 | Complete |
+| CHAN-04 | Phase 2 | Complete |
 | PROC-01 | Phase 3 | Pending |
 | PROC-02 | Phase 3 | Pending |
 | PROC-03 | Phase 4 | Pending |

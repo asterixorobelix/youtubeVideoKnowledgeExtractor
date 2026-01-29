@@ -13,7 +13,7 @@ This roadmap delivers a client-side web application that extracts YouTube channe
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation & Configuration** - Project scaffold, API key management, development environment
-- [ ] **Phase 2: Channel Video Listing** - YouTube Data API integration with quota-aware pagination
+- [x] **Phase 2: Channel Video Listing** - YouTube Data API integration with quota-aware pagination
 - [ ] **Phase 3: Video Selection** - Multi-video selection UI with batch controls
 - [ ] **Phase 4: Transcript Extraction** - Caption fetching with availability validation
 - [ ] **Phase 5: Claude Summarization** - Core processing with chunking, cost estimation, and progress tracking
@@ -48,9 +48,9 @@ Plans:
 **Plans:** 3 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — TDD: YouTube channel URL parser and core types
-- [ ] 02-02-PLAN.md — YouTube API service with caching and quota tracking
-- [ ] 02-03-PLAN.md — Channel input UI, video list, and pagination
+- [x] 02-01-PLAN.md — TDD: YouTube channel URL parser and core types
+- [x] 02-02-PLAN.md — YouTube API service with caching and quota tracking
+- [x] 02-03-PLAN.md — Channel input UI, video list, and pagination
 
 ### Phase 3: Video Selection
 **Goal**: Users can select individual videos or multiple videos for batch processing
@@ -125,7 +125,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation & Configuration | 2/2 | Complete | 2026-01-29 |
-| 2. Channel Video Listing | 0/3 | Not started | - |
+| 2. Channel Video Listing | 3/3 | Complete | 2026-01-29 |
 | 3. Video Selection | 0/2 | Not started | - |
 | 4. Transcript Extraction | 0/3 | Not started | - |
 | 5. Claude Summarization | 0/4 | Not started | - |
