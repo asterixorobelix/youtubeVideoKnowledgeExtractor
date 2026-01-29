@@ -5,6 +5,7 @@ import { ChannelInput } from '@/components/features/ChannelInput'
 import { VideoList } from '@/components/features/VideoList'
 import { QuotaStatus } from '@/components/features/QuotaStatus'
 import { useChannelVideos } from '@/hooks/useChannelVideos'
+import { useVideoSelection } from '@/hooks/useVideoSelection'
 import { Button } from '@/components/ui/button'
 import { Settings } from 'lucide-react'
 
@@ -24,6 +25,16 @@ function AppContent() {
     fetchChannel,
     loadMore,
   } = useChannelVideos()
+
+  // Video selection state
+  const videoIds = videos.map(v => v.id)
+  const {
+    isSelected,
+    toggleSelection,
+    selectAll,
+    clearSelection,
+    selectionCount,
+  } = useVideoSelection(videoIds)
 
   // Show API key form if no YouTube key configured OR if settings is opened
   if (!hasYoutubeKey || showSettings) {
@@ -121,6 +132,11 @@ function AppContent() {
               hasMore={nextPageToken !== null}
               onLoadMore={loadMore}
               totalResults={totalResults}
+              isSelected={isSelected}
+              onToggleSelection={toggleSelection}
+              selectedCount={selectionCount}
+              onSelectAll={selectAll}
+              onClearSelection={clearSelection}
             />
           </div>
         )}

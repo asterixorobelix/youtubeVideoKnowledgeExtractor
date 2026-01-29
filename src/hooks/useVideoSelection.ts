@@ -70,18 +70,19 @@ export function useVideoSelection(availableVideoIds: string[]): UseVideoSelectio
     setStoredArray(Array.from(selectedIds))
   }, [selectedIds, setStoredArray])
 
-  // Clear selection when switching to a completely different channel
-  // (detected by checking if the first video ID is different)
+  // Clear stale selection when video list completely changes (new channel)
+  // Prunes any selected IDs not in current video list
   useEffect(() => {
-    if (availableVideoIds.length > 0 && storedArray.length > 0) {
-      const firstAvailableId = availableVideoIds[0]
-      // If none of the stored IDs match any available IDs, we've switched channels
-      const hasMatch = storedArray.some(id => availableVideoIds.includes(id))
-      if (!hasMatch) {
-        setSelectedIds(new Set())
-      }
+    if (availableVideoIds.length > 0) {
+      setSelectedIds(prev => {
+        const stillValid = new Set([...prev].filter(id => availableVideoIds.includes(id)))
+        if (stillValid.size !== prev.size) {
+          return stillValid
+        }
+        return prev
+      })
     }
-  }, [availableVideoIds, storedArray])
+  }, [availableVideoIds])
 
   // Check if a video is selected (O(1) lookup)
   const isSelected = useCallback((id: string): boolean => {
