@@ -9,19 +9,19 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 
 ## Current Position
 
-Phase: 2 of 6 (Channel Video Listing) — COMPLETE
-Plan: 3 of 3 in current phase
-Status: Phase complete, verified
-Last activity: 2026-01-29 — Completed 02-03-PLAN.md (Channel input UI)
+Phase: 3 of 6 (Video Selection) — IN PROGRESS
+Plan: 1 of 2 in current phase
+Status: In progress
+Last activity: 2026-01-29 — Completed 03-01-PLAN.md (Selection foundation)
 
-Progress: [███░░░░░░░] 29% (5/17 plans complete)
+Progress: [████░░░░░░] 35% (6/17 plans complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 5
-- Average duration: 4.7 min
-- Total execution time: 0.39 hours
+- Total plans completed: 6
+- Average duration: 4.5 min
+- Total execution time: 0.45 hours
 
 **By Phase:**
 
@@ -29,13 +29,13 @@ Progress: [███░░░░░░░] 29% (5/17 plans complete)
 |-------|-------|-------|----------|
 | 1. Foundation & Configuration | 2/2 | 12.5 min | 6.3 min |
 | 2. Channel Video Listing | 3/3 | 12.7 min | 4.2 min |
-| 3. Video Selection | 0/2 | 0 min | - |
+| 3. Video Selection | 1/2 | 3 min | 3 min |
 | 4. Transcript Extraction | 0/3 | 0 min | - |
 | 5. Claude Summarization | 0/4 | 0 min | - |
 | 6. Export & Download | 0/3 | 0 min | - |
 
 **Recent Trend:**
-- Last 5 plans: 01-02 (8 min), 02-01 (2.7 min), 02-02 (2 min), 02-03 (8 min)
+- Last 5 plans: 02-01 (2.7 min), 02-02 (2 min), 02-03 (8 min), 03-01 (3 min)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -78,6 +78,12 @@ Recent decisions affecting current work:
 - API keys independently saveable — YouTube key alone enables channel browsing
 - Help links inline in form fields pointing to platform consoles
 
+**From 03-01:**
+- Use useSyncExternalStore for sessionStorage sync instead of manual event listeners
+- Store Set as Array in sessionStorage (Set not JSON-serializable)
+- Auto-clear selection on channel switch detected via video ID comparison
+- Configure vitest with jsdom environment for component testing
+
 ### Pending Todos
 
 None yet.
@@ -90,8 +96,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-29T21:55:00Z
-Stopped at: Phase 2 complete, verified
+Last session: 2026-01-29T19:24:02Z
+Stopped at: Completed 03-01-PLAN.md
 Resume file: None
 
 ---
