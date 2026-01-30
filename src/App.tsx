@@ -6,8 +6,9 @@ import { VideoList } from '@/components/features/VideoList'
 import { QuotaStatus } from '@/components/features/QuotaStatus'
 import { useChannelVideos } from '@/hooks/useChannelVideos'
 import { useVideoSelection } from '@/hooks/useVideoSelection'
+import { useTranscriptExtraction } from '@/hooks/useTranscriptExtraction'
 import { Button } from '@/components/ui/button'
-import { Settings } from 'lucide-react'
+import { Settings, Loader2 } from 'lucide-react'
 
 function AppContent() {
   const { hasKeys, hasYoutubeKey } = useApiKeys()
@@ -34,7 +35,18 @@ function AppContent() {
     selectAll,
     clearSelection,
     selectionCount,
+    getSelectedIds,
   } = useVideoSelection(videoIds)
+
+  // Transcript extraction state
+  const {
+    extractTranscripts,
+    isExtracting,
+    extractionComplete,
+    successCount,
+    errorCount,
+    getResult,
+  } = useTranscriptExtraction()
 
   // Show API key form if no YouTube key configured OR if settings is opened
   if (!hasYoutubeKey || showSettings) {
@@ -126,6 +138,35 @@ function AppContent() {
               </div>
             </div>
 
+            {/* Extract Transcripts button - appears after selection */}
+            {selectionCount > 0 && !extractionComplete && (
+              <div className="flex justify-center">
+                <Button
+                  onClick={() => extractTranscripts(getSelectedIds())}
+                  disabled={isExtracting}
+                  size="lg"
+                >
+                  {isExtracting ? (
+                    <>
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                      Extracting transcripts...
+                    </>
+                  ) : (
+                    `Extract Transcripts (${selectionCount})`
+                  )}
+                </Button>
+              </div>
+            )}
+
+            {/* Extraction summary - appears after extraction completes */}
+            {extractionComplete && (
+              <div className="p-4 rounded-lg border bg-muted/50 text-center">
+                <p className="text-sm font-medium">
+                  {successCount} transcript{successCount !== 1 ? 's' : ''} ready, {errorCount} failed
+                </p>
+              </div>
+            )}
+
             <VideoList
               videos={videos}
               isLoadingMore={isLoadingMore}
@@ -137,6 +178,7 @@ function AppContent() {
               selectedCount={selectionCount}
               onSelectAll={selectAll}
               onClearSelection={clearSelection}
+              getTranscriptResult={getResult}
             />
           </div>
         )}

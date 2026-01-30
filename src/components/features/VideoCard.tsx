@@ -1,14 +1,17 @@
 import type { VideoItem } from '@/types/youtube'
+import type { TranscriptResult } from '@/types/transcript'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
+import { TranscriptStatus } from './TranscriptStatus'
 
 interface VideoCardProps {
   video: VideoItem
   isSelected: boolean
   onToggleSelection: (id: string) => void
+  transcriptResult?: TranscriptResult
 }
 
-export function VideoCard({ video, isSelected, onToggleSelection }: VideoCardProps) {
+export function VideoCard({ video, isSelected, onToggleSelection, transcriptResult }: VideoCardProps) {
   // Format the published date to a readable format
   const formatDate = (isoString: string): string => {
     const date = new Date(isoString)
@@ -52,9 +55,12 @@ export function VideoCard({ video, isSelected, onToggleSelection }: VideoCardPro
         >
           {video.title}
         </Label>
-        <p className="text-xs text-muted-foreground">
-          {formatDate(video.publishedAt)}
-        </p>
+        <div className="flex items-center gap-2">
+          <p className="text-xs text-muted-foreground">
+            {formatDate(video.publishedAt)}
+          </p>
+          <TranscriptStatus result={transcriptResult} />
+        </div>
       </div>
     </div>
   )

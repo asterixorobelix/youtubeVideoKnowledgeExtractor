@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
 import { fetchTranscripts } from '../transcript.service';
-import type { TranscriptResult } from '@/types/transcript';
 
 describe('TranscriptService', () => {
   let mockFetch: ReturnType<typeof vi.fn>;

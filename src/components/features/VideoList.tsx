@@ -1,4 +1,5 @@
 import type { VideoItem } from '@/types/youtube'
+import type { TranscriptResult } from '@/types/transcript'
 import { VideoCard } from './VideoCard'
 import { SelectionToolbar } from './SelectionToolbar'
 import { Button } from '@/components/ui/button'
@@ -14,6 +15,7 @@ interface VideoListProps {
   selectedCount: number
   onSelectAll: () => void
   onClearSelection: () => void
+  getTranscriptResult?: (videoId: string) => TranscriptResult | undefined
 }
 
 export function VideoList({
@@ -27,6 +29,7 @@ export function VideoList({
   selectedCount,
   onSelectAll,
   onClearSelection,
+  getTranscriptResult,
 }: VideoListProps) {
   if (videos.length === 0) {
     return (
@@ -59,6 +62,7 @@ export function VideoList({
             video={video}
             isSelected={isSelected(video.id)}
             onToggleSelection={onToggleSelection}
+            transcriptResult={getTranscriptResult?.(video.id)}
           />
         ))}
       </div>
