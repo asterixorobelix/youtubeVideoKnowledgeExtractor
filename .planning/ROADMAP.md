@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Foundation & Configuration** - Project scaffold, API key management, development environment
 - [x] **Phase 2: Channel Video Listing** - YouTube Data API integration with quota-aware pagination
 - [x] **Phase 3: Video Selection** - Multi-video selection UI with batch controls
-- [ ] **Phase 4: Transcript Extraction** - Caption fetching with availability validation
+- [x] **Phase 4: Transcript Extraction** - Caption fetching with availability validation
 - [ ] **Phase 5: Claude Summarization** - Core processing with chunking, cost estimation, and progress tracking
 - [ ] **Phase 6: Export & Download** - Markdown generation and zip download
 
@@ -79,9 +79,9 @@ Plans:
 **Plans:** 3 plans
 
 Plans:
-- [ ] 04-01-PLAN.md — Vercel Edge Function proxy for YouTube caption extraction
-- [ ] 04-02-PLAN.md — TDD: TranscriptService with concurrency control and error handling
-- [ ] 04-03-PLAN.md — useTranscriptExtraction hook + TranscriptStatus UI integration
+- [x] 04-01-PLAN.md — Vercel Edge Function proxy for YouTube caption extraction
+- [x] 04-02-PLAN.md — TDD: TranscriptService with concurrency control and error handling
+- [x] 04-03-PLAN.md — useTranscriptExtraction hook + TranscriptStatus UI integration
 
 ### Phase 5: Claude Summarization
 **Goal**: System generates structured summaries from transcripts with cost estimation and progress tracking
@@ -127,10 +127,10 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 1. Foundation & Configuration | 2/2 | Complete | 2026-01-29 |
 | 2. Channel Video Listing | 3/3 | Complete | 2026-01-29 |
 | 3. Video Selection | 2/2 | Complete | 2026-01-29 |
-| 4. Transcript Extraction | 0/3 | Not started | - |
+| 4. Transcript Extraction | 3/3 | Complete | 2026-01-30 |
 | 5. Claude Summarization | 0/4 | Not started | - |
 | 6. Export & Download | 0/3 | Not started | - |
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-29*
+*Last updated: 2026-01-30*

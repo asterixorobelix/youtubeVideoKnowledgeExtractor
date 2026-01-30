@@ -5,7 +5,7 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** Extract structured knowledge from YouTube video transcripts quickly and in bulk
-**Current focus:** Phase 3 complete, ready for Phase 4
+**Current focus:** Phase 4 complete, ready for Phase 5
 
 ## Current Position
 

@@ -16,8 +16,8 @@
 
 - [x] **PROC-01**: User can select individual videos via checkboxes
 - [x] **PROC-02**: User can select/deselect all videos on current page
-- [ ] **PROC-03**: System extracts YouTube captions for selected videos
-- [ ] **PROC-04**: System skips videos without captions with clear indicator
+- [x] **PROC-03**: System extracts YouTube captions for selected videos
+- [x] **PROC-04**: System skips videos without captions with clear indicator
 - [ ] **PROC-05**: System sends transcripts to Claude API for structured summarization
 - [ ] **PROC-06**: Each summary includes: title, key points, topics covered, notable quotes
 - [ ] **PROC-07**: System shows estimated Claude API cost before processing begins
@@ -77,8 +77,8 @@
 | CHAN-04 | Phase 2 | Complete |
 | PROC-01 | Phase 3 | Complete |
 | PROC-02 | Phase 3 | Complete |
-| PROC-03 | Phase 4 | Pending |
-| PROC-04 | Phase 4 | Pending |
+| PROC-03 | Phase 4 | Complete |
+| PROC-04 | Phase 4 | Complete |
 | PROC-05 | Phase 5 | Pending |
 | PROC-06 | Phase 5 | Pending |
 | PROC-07 | Phase 5 | Pending |
@@ -95,4 +95,4 @@
 
 ---
 *Requirements defined: 2026-01-29*
-*Last updated: 2026-01-29 with phase mappings*
+*Last updated: 2026-01-30 — Phase 4 requirements marked Complete*
