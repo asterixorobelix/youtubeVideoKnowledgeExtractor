@@ -9,19 +9,19 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 
 ## Current Position
 
-Phase: 3 of 6 (Video Selection) — COMPLETE
-Plan: 2 of 2 in current phase
-Status: Phase complete, verified
-Last activity: 2026-01-29 — Completed Phase 3 (Video Selection)
+Phase: 4 of 6 (Transcript Extraction) — IN PROGRESS
+Plan: 1 of 3 in current phase
+Status: In progress
+Last activity: 2026-01-30 — Completed 04-01-PLAN.md
 
-Progress: [█████░░░░░] 41% (7/17 plans complete)
+Progress: [█████░░░░░] 47% (8/17 plans complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 7
-- Average duration: 4.0 min
-- Total execution time: 0.47 hours
+- Total plans completed: 8
+- Average duration: 3.3 min
+- Total execution time: 0.51 hours
 
 **By Phase:**
 
@@ -30,12 +30,12 @@ Progress: [█████░░░░░] 41% (7/17 plans complete)
 | 1. Foundation & Configuration | 2/2 | 12.5 min | 6.3 min |
 | 2. Channel Video Listing | 3/3 | 12.7 min | 4.2 min |
 | 3. Video Selection | 2/2 | 4 min | 2 min |
-| 4. Transcript Extraction | 0/3 | 0 min | - |
+| 4. Transcript Extraction | 1/3 | 1.1 min | 1.1 min |
 | 5. Claude Summarization | 0/4 | 0 min | - |
 | 6. Export & Download | 0/3 | 0 min | - |
 
 **Recent Trend:**
-- Last 5 plans: 02-02 (2 min), 02-03 (8 min), 03-01 (3 min), 03-02 (1 min)
+- Last 5 plans: 02-03 (8 min), 03-01 (3 min), 03-02 (1 min), 04-01 (1.1 min)
 - Trend: Accelerating
 
 *Updated after each plan completion*
@@ -90,6 +90,11 @@ Recent decisions affecting current work:
 - SelectionToolbar returns null when totalCount is 0 (no videos loaded)
 - Clear selection triggers when checkbox clicked in all-selected or indeterminate state
 
+**From 04-01:**
+- Use Vercel Edge Functions for transcript proxy to bypass CORS restrictions
+- 15-second timeout for caption extraction balances UX and availability
+- Differentiate error types (400 missing param, 404 no captions, 500 timeout) for better client handling
+
 ### Pending Todos
 
 None yet.
@@ -102,10 +107,10 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-29T19:28:49Z
-Stopped at: Completed 03-02-PLAN.md (Phase 3 complete)
+Last session: 2026-01-30T05:16:26Z
+Stopped at: Completed 04-01-PLAN.md
 Resume file: None
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-29T19:28:49Z*
+*Last updated: 2026-01-30T05:16:26Z*
