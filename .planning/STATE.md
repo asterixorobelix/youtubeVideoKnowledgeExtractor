@@ -9,19 +9,19 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 
 ## Current Position
 
-Phase: 4 of 6 (Transcript Extraction) — COMPLETE
-Plan: 3 of 3 in current phase
-Status: Phase complete
-Last activity: 2026-01-30 — Completed 04-03-PLAN.md
+Phase: 5 of 6 (Claude Summarization) — IN PROGRESS
+Plan: 1 of 4 in current phase
+Status: In progress
+Last activity: 2026-01-30 — Completed 05-01-PLAN.md
 
-Progress: [██████░░░░] 59% (10/17 plans complete)
+Progress: [██████░░░░] 65% (11/17 plans complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 10
-- Average duration: 3.0 min
-- Total execution time: 0.59 hours
+- Total plans completed: 11
+- Average duration: 8.9 min
+- Total execution time: 1.62 hours
 
 **By Phase:**
 
@@ -31,12 +31,12 @@ Progress: [██████░░░░] 59% (10/17 plans complete)
 | 2. Channel Video Listing | 3/3 | 12.7 min | 4.2 min |
 | 3. Video Selection | 2/2 | 4 min | 2 min |
 | 4. Transcript Extraction | 3/3 | 5.2 min | 1.7 min |
-| 5. Claude Summarization | 0/4 | 0 min | - |
+| 5. Claude Summarization | 1/4 | 62 min | 62 min |
 | 6. Export & Download | 0/3 | 0 min | - |
 
 **Recent Trend:**
-- Last 5 plans: 03-02 (1 min), 04-01 (1.1 min), 04-02 (1.5 min), 04-03 (2.6 min)
-- Trend: Highly efficient, averaging 1.6 min per plan
+- Last 5 plans: 04-01 (1.1 min), 04-02 (1.5 min), 04-03 (2.6 min), 05-01 (62 min)
+- Trend: Phase 5 Plan 1 significantly longer due to SDK installation and Edge Function setup
 
 *Updated after each plan completion*
 
@@ -105,6 +105,12 @@ Recent decisions affecting current work:
 - Use Map<string, TranscriptResult> for O(1) video lookup by ID
 - Show Extract button only when videos selected and extraction not yet started
 
+**From 05-01:**
+- Use Vercel Edge Functions for Claude API proxy (same pattern as transcript proxy)
+- Keep Zod validation client-side to avoid Edge Function bundle bloat
+- 60-second timeout for Claude processing (longer than transcript 15s timeout)
+- System prompt for JSON structure instead of zodOutputFormat
+
 ### Pending Todos
 
 None yet.
@@ -117,10 +123,10 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-30T05:23:52Z
-Stopped at: Completed 04-03-PLAN.md (Phase 4 complete)
+Last session: 2026-01-30T06:37:37Z
+Stopped at: Completed 05-01-PLAN.md (Claude API integration foundation)
 Resume file: None
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-30T05:23:52Z*
+*Last updated: 2026-01-30T06:37:37Z*

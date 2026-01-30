@@ -96,7 +96,7 @@ Plans:
 **Plans:** 3 plans
 
 Plans:
-- [ ] 05-01-PLAN.md — Types, Zod schemas, Claude API Edge Function proxy, and client service
+- [x] 05-01-PLAN.md — Types, Zod schemas, Claude API Edge Function proxy, and client service
 - [ ] 05-02-PLAN.md — TDD: Summarization service with chunking and cost estimation
 - [ ] 05-03-PLAN.md — useSummarization hook, cost estimator UI, progress tracking, and App wiring
 
