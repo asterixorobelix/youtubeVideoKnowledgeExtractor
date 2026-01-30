@@ -1,17 +1,23 @@
 import type { VideoItem } from '@/types/youtube'
 import type { TranscriptResult } from '@/types/transcript'
+import type { SummaryResult } from '@/types/summary'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
 import { TranscriptStatus } from './TranscriptStatus'
+import { SummaryStatus } from './SummaryStatus'
+import { RotateCw } from 'lucide-react'
 
 interface VideoCardProps {
   video: VideoItem
   isSelected: boolean
   onToggleSelection: (id: string) => void
   transcriptResult?: TranscriptResult
+  summaryResult?: SummaryResult
+  onRetrySummary?: (videoId: string) => void
 }
 
-export function VideoCard({ video, isSelected, onToggleSelection, transcriptResult }: VideoCardProps) {
+export function VideoCard({ video, isSelected, onToggleSelection, transcriptResult, summaryResult, onRetrySummary }: VideoCardProps) {
   // Format the published date to a readable format
   const formatDate = (isoString: string): string => {
     const date = new Date(isoString)
@@ -55,11 +61,28 @@ export function VideoCard({ video, isSelected, onToggleSelection, transcriptResu
         >
           {video.title}
         </Label>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <p className="text-xs text-muted-foreground">
             {formatDate(video.publishedAt)}
           </p>
           <TranscriptStatus result={transcriptResult} />
+          {summaryResult && (
+            <>
+              <span className="text-muted-foreground">•</span>
+              <SummaryStatus result={summaryResult} />
+              {summaryResult.status === 'failed' && onRetrySummary && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-5 px-2 text-xs"
+                  onClick={() => onRetrySummary(video.id)}
+                >
+                  <RotateCw className="h-3 w-3 mr-1" />
+                  Retry
+                </Button>
+              )}
+            </>
+          )}
         </div>
       </div>
     </div>

@@ -6,7 +6,6 @@ import {
   summarizeVideo,
 } from '../summarization.service';
 import * as claudeService from '../claude.service';
-import type { CostBreakdown, SummarizeVideoResult } from '../summarization.service';
 
 describe('SummarizationService', () => {
   describe('splitIntoChunks', () => {
@@ -199,10 +198,10 @@ describe('SummarizationService', () => {
       mockSummarizeTranscript = vi.fn();
 
       vi.spyOn(claudeService, 'countTranscriptTokens').mockImplementation(
-        mockCountTranscriptTokens
+        mockCountTranscriptTokens as any
       );
       vi.spyOn(claudeService, 'summarizeTranscript').mockImplementation(
-        mockSummarizeTranscript
+        mockSummarizeTranscript as any
       );
     });
 

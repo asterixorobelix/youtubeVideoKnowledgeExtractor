@@ -7,11 +7,13 @@ import { QuotaStatus } from '@/components/features/QuotaStatus'
 import { useChannelVideos } from '@/hooks/useChannelVideos'
 import { useVideoSelection } from '@/hooks/useVideoSelection'
 import { useTranscriptExtraction } from '@/hooks/useTranscriptExtraction'
+import { useSummarization } from '@/hooks/useSummarization'
+import { CostEstimator } from '@/components/features/CostEstimator'
 import { Button } from '@/components/ui/button'
 import { Settings, Loader2 } from 'lucide-react'
 
 function AppContent() {
-  const { hasKeys, hasYoutubeKey } = useApiKeys()
+  const { hasKeys, hasYoutubeKey, keys } = useApiKeys()
   const [showSettings, setShowSettings] = useState(false)
   const {
     channel,
@@ -45,8 +47,24 @@ function AppContent() {
     extractionComplete,
     successCount,
     errorCount,
-    getResult,
+    getResult: getTranscriptResult,
+    results: transcriptResults,
   } = useTranscriptExtraction()
+
+  // Summarization state
+  const {
+    phase: summaryPhase,
+    costEstimate,
+    totalActualCost,
+    processedCount,
+    completedCount,
+    failedCount,
+    estimateCost,
+    startProcessing,
+    retryVideo,
+    reset: resetSummary,
+    getResult: getSummaryResult,
+  } = useSummarization(keys.anthropicKey)
 
   // Show API key form if no YouTube key configured OR if settings is opened
   if (!hasYoutubeKey || showSettings) {
@@ -167,6 +185,79 @@ function AppContent() {
               </div>
             )}
 
+            {/* Summarize button - appears after extraction with at least 1 success */}
+            {extractionComplete && successCount > 0 && summaryPhase === 'idle' && (
+              <div className="flex justify-center">
+                {!keys.anthropicKey ? (
+                  <div className="p-4 rounded-lg border bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800 text-center">
+                    <p className="text-sm text-amber-900 dark:text-amber-100">
+                      Add Anthropic API key in settings to summarize
+                    </p>
+                  </div>
+                ) : (
+                  <Button
+                    onClick={() => {
+                      const transcripts = new Map<string, string>()
+                      Array.from(transcriptResults.values()).forEach((result) => {
+                        if (result.status === 'success' && result.transcript) {
+                          transcripts.set(result.videoId, result.transcript)
+                        }
+                      })
+                      estimateCost(transcripts)
+                    }}
+                    size="lg"
+                  >
+                    Summarize with Claude ({successCount} video{successCount !== 1 ? 's' : ''})
+                  </Button>
+                )}
+              </div>
+            )}
+
+            {/* Cost estimation card */}
+            {summaryPhase === 'estimated' && costEstimate && (
+              <div className="max-w-2xl mx-auto">
+                <CostEstimator
+                  estimate={costEstimate}
+                  isProcessing={false}
+                  onConfirm={startProcessing}
+                  onCancel={resetSummary}
+                />
+              </div>
+            )}
+
+            {/* Processing progress */}
+            {summaryPhase === 'processing' && (
+              <div className="p-4 rounded-lg border bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800 text-center space-y-2">
+                <div className="flex items-center justify-center gap-2">
+                  <Loader2 className="h-4 w-4 animate-spin text-blue-600" />
+                  <p className="text-sm font-medium text-blue-900 dark:text-blue-100">
+                    Processing... {processedCount} of {successCount} complete
+                  </p>
+                </div>
+                <p className="text-xs text-blue-700 dark:text-blue-300">
+                  Cost so far: ${totalActualCost.toFixed(4)}
+                </p>
+              </div>
+            )}
+
+            {/* Completion summary */}
+            {summaryPhase === 'complete' && (
+              <div className="p-4 rounded-lg border bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800 text-center space-y-2">
+                <p className="text-sm font-medium text-green-900 dark:text-green-100">
+                  {completedCount} summar{completedCount !== 1 ? 'ies' : 'y'} ready
+                  {failedCount > 0 && `, ${failedCount} failed`}
+                </p>
+                {failedCount > 0 && (
+                  <p className="text-xs text-green-700 dark:text-green-300">
+                    Click retry on failed videos below
+                  </p>
+                )}
+                <p className="text-xs text-green-700 dark:text-green-300">
+                  Total cost: ${totalActualCost.toFixed(4)}
+                </p>
+              </div>
+            )}
+
             <VideoList
               videos={videos}
               isLoadingMore={isLoadingMore}
@@ -178,7 +269,14 @@ function AppContent() {
               selectedCount={selectionCount}
               onSelectAll={selectAll}
               onClearSelection={clearSelection}
-              getTranscriptResult={getResult}
+              getTranscriptResult={getTranscriptResult}
+              getSummaryResult={getSummaryResult}
+              onRetrySummary={(videoId) => {
+                const transcript = transcriptResults.get(videoId)?.transcript
+                if (transcript) {
+                  retryVideo(videoId, transcript)
+                }
+              }}
             />
           </div>
         )}

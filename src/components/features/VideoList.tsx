@@ -1,5 +1,6 @@
 import type { VideoItem } from '@/types/youtube'
 import type { TranscriptResult } from '@/types/transcript'
+import type { SummaryResult } from '@/types/summary'
 import { VideoCard } from './VideoCard'
 import { SelectionToolbar } from './SelectionToolbar'
 import { Button } from '@/components/ui/button'
@@ -16,6 +17,8 @@ interface VideoListProps {
   onSelectAll: () => void
   onClearSelection: () => void
   getTranscriptResult?: (videoId: string) => TranscriptResult | undefined
+  getSummaryResult?: (videoId: string) => SummaryResult | undefined
+  onRetrySummary?: (videoId: string) => void
 }
 
 export function VideoList({
@@ -30,6 +33,8 @@ export function VideoList({
   onSelectAll,
   onClearSelection,
   getTranscriptResult,
+  getSummaryResult,
+  onRetrySummary,
 }: VideoListProps) {
   if (videos.length === 0) {
     return (
@@ -63,6 +68,8 @@ export function VideoList({
             isSelected={isSelected(video.id)}
             onToggleSelection={onToggleSelection}
             transcriptResult={getTranscriptResult?.(video.id)}
+            summaryResult={getSummaryResult?.(video.id)}
+            onRetrySummary={onRetrySummary}
           />
         ))}
       </div>
