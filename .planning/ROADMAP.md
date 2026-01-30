@@ -93,13 +93,12 @@ Plans:
   3. Long transcripts (>10K tokens) are chunked and processed without errors
   4. UI shows real-time per-video processing status (queued, processing, completed, failed)
   5. User can retry failed videos without reprocessing successful ones
-**Plans**: TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] 05-01: Claude API integration with structured output parsing
-- [ ] 05-02: Token counting and cost estimation UI
-- [ ] 05-03: Chunking strategy for long transcripts
-- [ ] 05-04: Batch processor with progress tracking and retry logic
+- [ ] 05-01-PLAN.md — Types, Zod schemas, Claude API Edge Function proxy, and client service
+- [ ] 05-02-PLAN.md — TDD: Summarization service with chunking and cost estimation
+- [ ] 05-03-PLAN.md — useSummarization hook, cost estimator UI, progress tracking, and App wiring
 
 ### Phase 6: Export & Download
 **Goal**: Users can download all completed summaries as a zip file of markdown documents
@@ -128,7 +127,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 2. Channel Video Listing | 3/3 | Complete | 2026-01-29 |
 | 3. Video Selection | 2/2 | Complete | 2026-01-29 |
 | 4. Transcript Extraction | 3/3 | Complete | 2026-01-30 |
-| 5. Claude Summarization | 0/4 | Not started | - |
+| 5. Claude Summarization | 0/3 | Not started | - |
 | 6. Export & Download | 0/3 | Not started | - |
 
 ---
