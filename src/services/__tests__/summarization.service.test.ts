@@ -233,76 +233,70 @@ describe('SummarizationService', () => {
     });
 
     it('uses chunking path for transcripts over threshold', async () => {
-      const longTranscript = 'word '.repeat(50000); // Long transcript
+      const longTranscript = 'word '.repeat(50000); // Long transcript (creates 7 chunks)
       const apiKey = 'test-api-key';
 
       mockCountTranscriptTokens.mockResolvedValue({ inputTokens: 60000 });
 
-      // Mock chunk summaries (map phase)
-      mockSummarizeTranscript
-        .mockResolvedValueOnce({
-          summary: { title: 'Chunk 1', key_points: ['a'], topics: ['t1'], notable_quotes: [] },
+      // Mock 7 chunk summaries (map phase) + 1 final reduce
+      for (let i = 0; i < 7; i++) {
+        mockSummarizeTranscript.mockResolvedValueOnce({
+          summary: { title: `Chunk ${i + 1}`, key_points: ['a'], topics: ['t1'], notable_quotes: [] },
           inputTokens: 12000,
           outputTokens: 200,
           cost: 0.04,
-        })
-        .mockResolvedValueOnce({
-          summary: { title: 'Chunk 2', key_points: ['b'], topics: ['t2'], notable_quotes: [] },
-          inputTokens: 12000,
-          outputTokens: 200,
-          cost: 0.04,
-        })
-        // Mock final reduce summary
-        .mockResolvedValueOnce({
-          summary: { title: 'Final', key_points: ['a', 'b', 'c'], topics: ['t1', 't2'], notable_quotes: [] },
-          inputTokens: 400,
-          outputTokens: 500,
-          cost: 0.01,
         });
+      }
+
+      // Mock final reduce summary
+      mockSummarizeTranscript.mockResolvedValueOnce({
+        summary: { title: 'Final', key_points: ['a', 'b', 'c'], topics: ['t1', 't2'], notable_quotes: [] },
+        inputTokens: 400,
+        outputTokens: 500,
+        cost: 0.01,
+      });
 
       const result = await summarizeVideo(longTranscript, apiKey);
 
       expect(mockCountTranscriptTokens).toHaveBeenCalledWith(longTranscript, apiKey);
-      expect(mockSummarizeTranscript).toHaveBeenCalledTimes(3); // 2 chunks + 1 reduce
+      expect(mockSummarizeTranscript).toHaveBeenCalledTimes(8); // 7 chunks + 1 reduce
       expect(result.wasChunked).toBe(true);
       expect(result.summary).toBeDefined();
       expect(result.summary.title).toBe('Final');
     });
 
     it('aggregates costs correctly for chunked transcripts', async () => {
-      const longTranscript = 'word '.repeat(50000);
+      const longTranscript = 'word '.repeat(50000); // Creates 7 chunks
       const apiKey = 'test-api-key';
 
       mockCountTranscriptTokens.mockResolvedValue({ inputTokens: 60000 });
 
-      mockSummarizeTranscript
-        .mockResolvedValueOnce({
-          summary: { title: 'C1', key_points: ['a'], topics: ['t'], notable_quotes: [] },
+      // Mock 7 chunk summaries
+      for (let i = 0; i < 7; i++) {
+        mockSummarizeTranscript.mockResolvedValueOnce({
+          summary: { title: `C${i + 1}`, key_points: ['a'], topics: ['t'], notable_quotes: [] },
           inputTokens: 12000,
           outputTokens: 200,
           cost: 0.04,
-        })
-        .mockResolvedValueOnce({
-          summary: { title: 'C2', key_points: ['b'], topics: ['t'], notable_quotes: [] },
-          inputTokens: 12000,
-          outputTokens: 200,
-          cost: 0.04,
-        })
-        .mockResolvedValueOnce({
-          summary: { title: 'Final', key_points: ['a', 'b'], topics: ['t'], notable_quotes: [] },
-          inputTokens: 400,
-          outputTokens: 500,
-          cost: 0.01,
         });
+      }
+
+      // Mock final reduce
+      mockSummarizeTranscript.mockResolvedValueOnce({
+        summary: { title: 'Final', key_points: ['a', 'b'], topics: ['t'], notable_quotes: [] },
+        inputTokens: 400,
+        outputTokens: 500,
+        cost: 0.01,
+      });
 
       const result = await summarizeVideo(longTranscript, apiKey);
 
-      // Total cost should be sum of all three API calls
-      expect(result.cost).toBeCloseTo(0.09, 2);
+      // Total cost should be sum of all API calls (7 chunks * 0.04 + 1 reduce * 0.01)
+      expect(result.cost).toBeCloseTo(0.29, 2); // 7 * 0.04 + 0.01 = 0.29
       // Input tokens should be sum of all inputs
-      expect(result.inputTokens).toBe(12000 + 12000 + 400);
+      expect(result.inputTokens).toBe(7 * 12000 + 400);
       // Output tokens should be sum of all outputs
-      expect(result.outputTokens).toBe(200 + 200 + 500);
+      expect(result.outputTokens).toBe(7 * 200 + 500);
     });
 
     it('returns result with all required fields', async () => {
