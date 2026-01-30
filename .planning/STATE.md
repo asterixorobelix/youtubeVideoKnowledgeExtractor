@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 ## Current Position
 
 Phase: 5 of 6 (Claude Summarization) — IN PROGRESS
-Plan: 1 of 4 in current phase
+Plan: 2 of 4 in current phase
 Status: In progress
-Last activity: 2026-01-30 — Completed 05-01-PLAN.md
+Last activity: 2026-01-30 — Completed 05-02-PLAN.md
 
-Progress: [██████░░░░] 65% (11/17 plans complete)
+Progress: [███████░░░] 71% (12/17 plans complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 11
-- Average duration: 8.9 min
-- Total execution time: 1.62 hours
+- Total plans completed: 12
+- Average duration: 8.5 min
+- Total execution time: 1.7 hours
 
 **By Phase:**
 
@@ -31,12 +31,12 @@ Progress: [██████░░░░] 65% (11/17 plans complete)
 | 2. Channel Video Listing | 3/3 | 12.7 min | 4.2 min |
 | 3. Video Selection | 2/2 | 4 min | 2 min |
 | 4. Transcript Extraction | 3/3 | 5.2 min | 1.7 min |
-| 5. Claude Summarization | 1/4 | 62 min | 62 min |
+| 5. Claude Summarization | 2/4 | 65 min | 32.5 min |
 | 6. Export & Download | 0/3 | 0 min | - |
 
 **Recent Trend:**
-- Last 5 plans: 04-01 (1.1 min), 04-02 (1.5 min), 04-03 (2.6 min), 05-01 (62 min)
-- Trend: Phase 5 Plan 1 significantly longer due to SDK installation and Edge Function setup
+- Last 5 plans: 04-02 (1.5 min), 04-03 (2.6 min), 05-01 (62 min), 05-02 (3 min)
+- Trend: Phase 5 Plan 1 longer due to SDK setup, Plan 2 fast TDD execution
 
 *Updated after each plan completion*
 
@@ -111,6 +111,13 @@ Recent decisions affecting current work:
 - 60-second timeout for Claude processing (longer than transcript 15s timeout)
 - System prompt for JSON structure instead of zodOutputFormat
 
+**From 05-02:**
+- 9000 words/chunk default (~12K tokens) for optimal Claude context window usage
+- 10% overlap between chunks maintains context continuity at boundaries
+- Map-reduce pattern: parallel chunk summarization + reduce for long transcripts
+- 10% cost buffer for conservative user consent estimates
+- Promise.all for parallel chunk processing (faster than sequential)
+
 ### Pending Todos
 
 None yet.
@@ -119,14 +126,14 @@ None yet.
 
 **Research insights flagged for planning:**
 - Phase 4: 20-40% of YouTube videos lack captions—need graceful handling with clear UI indicators
-- Phase 5: Long videos (>1 hour) produce 50K-150K token transcripts requiring chunking strategy before MVP—this is blocking
+- ~~Phase 5: Long videos (>1 hour) produce 50K-150K token transcripts requiring chunking strategy before MVP—this is blocking~~ **RESOLVED in 05-02:** Map-reduce chunking implemented with 10% overlap
 
 ## Session Continuity
 
-Last session: 2026-01-30T06:37:37Z
-Stopped at: Completed 05-01-PLAN.md (Claude API integration foundation)
+Last session: 2026-01-30T19:04:46Z
+Stopped at: Completed 05-02-PLAN.md (Summarization service with chunking)
 Resume file: None
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-30T06:37:37Z*
+*Last updated: 2026-01-30T19:04:46Z*
