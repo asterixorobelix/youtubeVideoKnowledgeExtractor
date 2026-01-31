@@ -16,8 +16,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Channel Video Listing** - YouTube Data API integration with quota-aware pagination
 - [x] **Phase 3: Video Selection** - Multi-video selection UI with batch controls
 - [x] **Phase 4: Transcript Extraction** - Caption fetching with availability validation
-- [ ] **Phase 5: Claude Summarization** - Core processing with chunking, cost estimation, and progress tracking
-- [ ] **Phase 6: Export & Download** - Markdown generation and zip download
+- [x] **Phase 5: Claude Summarization** - Core processing with chunking, cost estimation, and progress tracking
+- [x] **Phase 6: Export & Download** - Markdown generation and zip download
 
 ## Phase Details
 
@@ -97,8 +97,8 @@ Plans:
 
 Plans:
 - [x] 05-01-PLAN.md — Types, Zod schemas, Claude API Edge Function proxy, and client service
-- [ ] 05-02-PLAN.md — TDD: Summarization service with chunking and cost estimation
-- [ ] 05-03-PLAN.md — useSummarization hook, cost estimator UI, progress tracking, and App wiring
+- [x] 05-02-PLAN.md — TDD: Summarization service with chunking and cost estimation
+- [x] 05-03-PLAN.md — useSummarization hook, cost estimator UI, progress tracking, and App wiring
 
 ### Phase 6: Export & Download
 **Goal**: Users can download all completed summaries as a zip file of markdown documents
@@ -112,8 +112,8 @@ Plans:
 **Plans:** 2 plans
 
 Plans:
-- [ ] 06-01-PLAN.md — TDD: Export service (markdown generation, filename sanitization, zip creation)
-- [ ] 06-02-PLAN.md — useExport hook, ExportButton component, and App.tsx wiring
+- [x] 06-01-PLAN.md — TDD: Export service (markdown generation, filename sanitization, zip creation)
+- [x] 06-02-PLAN.md — useExport hook, ExportButton component, and App.tsx wiring
 
 ## Progress
 
@@ -126,9 +126,9 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 2. Channel Video Listing | 3/3 | Complete | 2026-01-29 |
 | 3. Video Selection | 2/2 | Complete | 2026-01-29 |
 | 4. Transcript Extraction | 3/3 | Complete | 2026-01-30 |
-| 5. Claude Summarization | 0/3 | Not started | - |
-| 6. Export & Download | 0/2 | Not started | - |
+| 5. Claude Summarization | 3/3 | Complete | 2026-01-30 |
+| 6. Export & Download | 2/2 | Complete | 2026-01-31 |
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-30*
+*Last updated: 2026-01-31*

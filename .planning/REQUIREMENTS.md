@@ -18,17 +18,17 @@
 - [x] **PROC-02**: User can select/deselect all videos on current page
 - [x] **PROC-03**: System extracts YouTube captions for selected videos
 - [x] **PROC-04**: System skips videos without captions with clear indicator
-- [ ] **PROC-05**: System sends transcripts to Claude API for structured summarization
-- [ ] **PROC-06**: Each summary includes: title, key points, topics covered, notable quotes
-- [ ] **PROC-07**: System shows estimated Claude API cost before processing begins
-- [ ] **PROC-08**: System handles long transcripts via chunking (>50K tokens)
+- [x] **PROC-05**: System sends transcripts to Claude API for structured summarization
+- [x] **PROC-06**: Each summary includes: title, key points, topics covered, notable quotes
+- [x] **PROC-07**: System shows estimated Claude API cost before processing begins
+- [x] **PROC-08**: System handles long transcripts via chunking (>50K tokens)
 
 ### Output
 
-- [ ] **OUT-01**: UI shows per-video processing status (queued, processing, completed, failed)
-- [ ] **OUT-02**: User can download all completed summaries as a zip of markdown files
-- [ ] **OUT-03**: User can retry failed videos without reprocessing successful ones
-- [ ] **OUT-04**: Markdown files include video title, link, key points, topics, and quotes
+- [x] **OUT-01**: UI shows per-video processing status (queued, processing, completed, failed)
+- [x] **OUT-02**: User can download all completed summaries as a zip of markdown files
+- [x] **OUT-03**: User can retry failed videos without reprocessing successful ones
+- [x] **OUT-04**: Markdown files include video title, link, key points, topics, and quotes
 
 ### Configuration
 
@@ -79,14 +79,14 @@
 | PROC-02 | Phase 3 | Complete |
 | PROC-03 | Phase 4 | Complete |
 | PROC-04 | Phase 4 | Complete |
-| PROC-05 | Phase 5 | Pending |
-| PROC-06 | Phase 5 | Pending |
-| PROC-07 | Phase 5 | Pending |
-| PROC-08 | Phase 5 | Pending |
-| OUT-01 | Phase 5 | Pending |
-| OUT-03 | Phase 5 | Pending |
-| OUT-02 | Phase 6 | Pending |
-| OUT-04 | Phase 6 | Pending |
+| PROC-05 | Phase 5 | Complete |
+| PROC-06 | Phase 5 | Complete |
+| PROC-07 | Phase 5 | Complete |
+| PROC-08 | Phase 5 | Complete |
+| OUT-01 | Phase 5 | Complete |
+| OUT-03 | Phase 5 | Complete |
+| OUT-02 | Phase 6 | Complete |
+| OUT-04 | Phase 6 | Complete |
 
 **Coverage:**
 - v1 requirements: 19 total
@@ -95,4 +95,4 @@
 
 ---
 *Requirements defined: 2026-01-29*
-*Last updated: 2026-01-30 — Phase 4 requirements marked Complete*
+*Last updated: 2026-01-31 — All v1 requirements marked Complete*
