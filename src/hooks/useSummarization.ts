@@ -9,6 +9,7 @@ interface SummarizationState {
   costEstimate: BatchCostEstimate | null
   totalActualCost: number
   processedCount: number
+  totalCount: number
 }
 
 type SummarizationAction =
@@ -19,7 +20,6 @@ type SummarizationAction =
   | { type: 'SET_VIDEO_STATUS'; videoId: string; status: SummaryStatus }
   | { type: 'SET_VIDEO_RESULT'; videoId: string; summary: any; cost: number; inputTokens: number; outputTokens: number }
   | { type: 'SET_VIDEO_ERROR'; videoId: string; error: string }
-  | { type: 'COMPLETE' }
   | { type: 'RESET' }
 
 const initialState: SummarizationState = {
@@ -28,6 +28,7 @@ const initialState: SummarizationState = {
   costEstimate: null,
   totalActualCost: 0,
   processedCount: 0,
+  totalCount: 0,
 }
 
 function summarizationReducer(
@@ -70,6 +71,7 @@ function summarizationReducer(
         results: newResults,
         totalActualCost: 0,
         processedCount: 0,
+        totalCount: action.videoIds.length,
       }
     }
 
@@ -98,11 +100,14 @@ function summarizationReducer(
         inputTokens: action.inputTokens,
         outputTokens: action.outputTokens,
       })
+      const newProcessedCount = state.processedCount + 1
+      const isComplete = newProcessedCount >= state.totalCount
       return {
         ...state,
         results: newResults,
         totalActualCost: state.totalActualCost + action.cost,
-        processedCount: state.processedCount + 1,
+        processedCount: newProcessedCount,
+        phase: isComplete ? 'complete' : state.phase,
       }
     }
 
@@ -117,18 +122,15 @@ function summarizationReducer(
         inputTokens: existing?.inputTokens,
         outputTokens: existing?.outputTokens,
       })
+      const newProcessedCount = state.processedCount + 1
+      const isComplete = newProcessedCount >= state.totalCount
       return {
         ...state,
         results: newResults,
-        processedCount: state.processedCount + 1,
+        processedCount: newProcessedCount,
+        phase: isComplete ? 'complete' : state.phase,
       }
     }
-
-    case 'COMPLETE':
-      return {
-        ...state,
-        phase: 'complete',
-      }
 
     case 'RESET':
       return initialState
@@ -207,7 +209,6 @@ export function useSummarization(apiKey: string) {
     )
 
     await Promise.all(processingPromises)
-    dispatch({ type: 'COMPLETE' })
   }, [apiKey])
 
   const retryVideo = useCallback(
