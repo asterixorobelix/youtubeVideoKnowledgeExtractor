@@ -109,12 +109,11 @@ Plans:
   2. Each markdown file includes video title, link, key points, topics, and notable quotes
   3. Filenames are sanitized (no special characters, collision-safe with video IDs)
   4. Zip downloads work in all major browsers (Chrome, Firefox, Safari, Edge)
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] 06-01: Markdown generation from structured summaries
-- [ ] 06-02: ExportService with JSZip integration and filename sanitization
-- [ ] 06-03: Download trigger and browser compatibility testing
+- [ ] 06-01-PLAN.md — TDD: Export service (markdown generation, filename sanitization, zip creation)
+- [ ] 06-02-PLAN.md — useExport hook, ExportButton component, and App.tsx wiring
 
 ## Progress
 
@@ -128,7 +127,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 3. Video Selection | 2/2 | Complete | 2026-01-29 |
 | 4. Transcript Extraction | 3/3 | Complete | 2026-01-30 |
 | 5. Claude Summarization | 0/3 | Not started | - |
-| 6. Export & Download | 0/3 | Not started | - |
+| 6. Export & Download | 0/2 | Not started | - |
 
 ---
 *Created: 2026-01-29*
