@@ -15,7 +15,7 @@ import { Button } from '@/components/ui/button'
 import { Settings, Loader2, X } from 'lucide-react'
 
 function AppContent() {
-  const { hasKeys, hasYoutubeKey, keys } = useApiKeys()
+  const { hasKeys, hasYoutubeKey, hasOpenaiKey, keys } = useApiKeys()
   const [showSettings, setShowSettings] = useState(false)
   const {
     channel,
@@ -47,6 +47,7 @@ function AppContent() {
   const {
     extractTranscripts,
     retryTranscript,
+    whisperTranscript,
     isExtracting,
     extractionComplete,
     successCount,
@@ -348,6 +349,8 @@ function AppContent() {
               getTranscriptResult={getTranscriptResult}
               getSummaryResult={getSummaryResult}
               onRetryTranscript={retryTranscript}
+              onWhisperTranscribe={(videoId) => whisperTranscript(videoId, keys.openaiKey)}
+              hasOpenaiKey={hasOpenaiKey}
               onRetrySummary={(videoId) => {
                 const transcript = transcriptResults.get(videoId)?.transcript
                 if (transcript) {

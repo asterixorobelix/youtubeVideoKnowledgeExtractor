@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input'
 const formSchema = z.object({
   anthropicKey: z.string(),
   youtubeKey: z.string(),
+  openaiKey: z.string(),
 })
 
 type FormData = z.infer<typeof formSchema>
@@ -20,6 +21,7 @@ export function ApiKeyForm() {
   const { keys, setKeys, clearKeys, hasKeys } = useApiKeys()
   const [showAnthropicKey, setShowAnthropicKey] = useState(false)
   const [showYoutubeKey, setShowYoutubeKey] = useState(false)
+  const [showOpenaiKey, setShowOpenaiKey] = useState(false)
   const [saveSuccess, setSaveSuccess] = useState(false)
 
   const form = useForm<FormData>({
@@ -27,6 +29,7 @@ export function ApiKeyForm() {
     defaultValues: {
       anthropicKey: keys.anthropicKey,
       youtubeKey: keys.youtubeKey,
+      openaiKey: keys.openaiKey,
     },
   })
 
@@ -38,7 +41,7 @@ export function ApiKeyForm() {
 
   const handleClearKeys = () => {
     clearKeys()
-    form.reset({ anthropicKey: '', youtubeKey: '' })
+    form.reset({ anthropicKey: '', youtubeKey: '', openaiKey: '' })
     setSaveSuccess(false)
   }
 
@@ -133,6 +136,44 @@ export function ApiKeyForm() {
                       YouTube Data API v3
                     </a>
                     {' '}first. Tip: under API restrictions, select "Restrict key" and choose only YouTube Data API v3.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="openaiKey"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>OpenAI API Key</FormLabel>
+                  <FormControl>
+                    <div className="relative">
+                      <Input
+                        type={showOpenaiKey ? 'text' : 'password'}
+                        placeholder="sk-..."
+                        {...field}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowOpenaiKey(!showOpenaiKey)}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                      >
+                        {showOpenaiKey ? <EyeOff size={18} /> : <Eye size={18} />}
+                      </button>
+                    </div>
+                  </FormControl>
+                  <FormDescription>
+                    Optional. Used to transcribe videos without captions via Whisper.{' '}
+                    <a
+                      href="https://platform.openai.com/api-keys"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-primary hover:underline"
+                    >
+                      Get your key <ExternalLink size={12} />
+                    </a>
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

@@ -32,7 +32,8 @@ describe('TranscriptService', () => {
     expect(results[0]).toEqual({
       videoId,
       status: 'success',
-      transcript: transcriptText
+      transcript: transcriptText,
+      source: 'captions',
     });
   });
 
@@ -56,7 +57,8 @@ describe('TranscriptService', () => {
     expect(results[0]).toEqual({
       videoId,
       status: 'error',
-      error: errorMessage
+      error: errorMessage,
+      noCaptions: true,
     });
   });
 
@@ -99,6 +101,7 @@ describe('TranscriptService', () => {
     expect(results[1].videoId).toBe('video2');
     expect(results[2].videoId).toBe('video3');
     expect(results.every(r => r.status === 'success')).toBe(true);
+    expect(results.every(r => r.source === 'captions')).toBe(true);
   });
 
   it('fetchTranscripts limits concurrency to 5', async () => {

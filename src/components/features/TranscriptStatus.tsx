@@ -1,12 +1,14 @@
-import { Check, X, Loader2, Minus, RotateCw } from 'lucide-react'
+import { Check, X, Loader2, Minus, RotateCw, AudioLines } from 'lucide-react'
 import type { TranscriptResult } from '@/types/transcript'
 
 interface TranscriptStatusProps {
   result: TranscriptResult | undefined
   onRetry?: () => void
+  onWhisperTranscribe?: () => void
+  hasOpenaiKey?: boolean
 }
 
-export function TranscriptStatus({ result, onRetry }: TranscriptStatusProps) {
+export function TranscriptStatus({ result, onRetry, onWhisperTranscribe, hasOpenaiKey }: TranscriptStatusProps) {
   if (!result) {
     return null
   }
@@ -26,16 +28,25 @@ export function TranscriptStatus({ result, onRetry }: TranscriptStatusProps) {
         </div>
       )
 
+    case 'whisper-fetching':
+      return (
+        <div className="flex items-center gap-1 text-purple-600 text-xs">
+          <Loader2 className="h-3 w-3 animate-spin" />
+          <span>Transcribing with Whisper...</span>
+        </div>
+      )
+
     case 'success':
       return (
         <div className="flex items-center gap-1 text-green-600 text-xs">
           <Check className="h-3 w-3" />
-          <span>Transcript ready</span>
+          <span>Transcript ready{result.source === 'whisper' ? ' (Whisper)' : ''}</span>
         </div>
       )
 
     case 'error': {
-      const isNoCaptions = result.error?.toLowerCase().includes('no captions')
+      const isNoCaptions = result.noCaptions
+        || result.error?.toLowerCase().includes('no captions')
         || result.error?.toLowerCase().includes('not available')
       return (
         <div className="flex items-center gap-1 text-red-500 text-xs">
@@ -48,6 +59,15 @@ export function TranscriptStatus({ result, onRetry }: TranscriptStatusProps) {
             >
               <RotateCw className="h-3 w-3" />
               <span>Retry</span>
+            </button>
+          )}
+          {isNoCaptions && hasOpenaiKey && onWhisperTranscribe && (
+            <button
+              onClick={(e) => { e.stopPropagation(); onWhisperTranscribe() }}
+              className="inline-flex items-center gap-0.5 ml-1 px-1.5 py-0.5 rounded bg-purple-500/10 hover:bg-purple-500/20 text-purple-600 hover:text-purple-500 transition-colors"
+            >
+              <AudioLines className="h-3 w-3" />
+              <span>Whisper</span>
             </button>
           )}
         </div>

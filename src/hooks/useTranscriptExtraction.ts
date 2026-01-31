@@ -1,10 +1,11 @@
 import { useState, useCallback, useMemo } from 'react'
-import { fetchTranscripts, fetchSingleTranscript } from '@/services/transcript.service'
+import { fetchTranscripts, fetchSingleTranscript, whisperTranscribe } from '@/services/transcript.service'
 import type { TranscriptResult } from '@/types/transcript'
 
 interface UseTranscriptExtractionReturn {
   extractTranscripts: (videoIds: string[]) => void
   retryTranscript: (videoId: string) => void
+  whisperTranscript: (videoId: string, openaiKey: string) => void
   results: Map<string, TranscriptResult>
   isExtracting: boolean
   extractionComplete: boolean
@@ -95,6 +96,22 @@ export function useTranscriptExtraction(): UseTranscriptExtractionReturn {
     })
   }, [])
 
+  const whisperTranscript = useCallback(async (videoId: string, openaiKey: string) => {
+    // Set this video to whisper-fetching
+    setResults((prev) => {
+      const next = new Map(prev)
+      next.set(videoId, { videoId, status: 'whisper-fetching' })
+      return next
+    })
+
+    const result = await whisperTranscribe(videoId, openaiKey)
+    setResults((prev) => {
+      const next = new Map(prev)
+      next.set(videoId, result)
+      return next
+    })
+  }, [])
+
   const reset = useCallback(() => {
     setResults(new Map())
     setIsExtracting(false)
@@ -104,6 +121,7 @@ export function useTranscriptExtraction(): UseTranscriptExtractionReturn {
   return {
     extractTranscripts,
     retryTranscript,
+    whisperTranscript,
     results,
     isExtracting,
     extractionComplete,

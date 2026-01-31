@@ -46,11 +46,7 @@ function parseCaptionXml(xml: string): string {
   );
 }
 
-export async function extractCaptions(
-  videoId: string,
-  lang: string = 'en'
-): Promise<string> {
-  // Step 1: Get caption tracks via Innertube ANDROID player API
+export async function fetchPlayerResponse(videoId: string): Promise<Record<string, unknown>> {
   const playerResponse = await fetch(INNERTUBE_PLAYER_URL, {
     method: 'POST',
     headers: ANDROID_HEADERS,
@@ -72,21 +68,59 @@ export async function extractCaptions(
     );
   }
 
-  const tracks =
-    playerData?.captions?.playerCaptionsTracklistRenderer?.captionTracks;
+  return playerData;
+}
 
-  if (!tracks || tracks.length === 0) {
+export function getAudioStreamUrl(playerData: Record<string, unknown>): string {
+  const streamingData = playerData?.streamingData as Record<string, unknown> | undefined;
+  const adaptiveFormats = streamingData?.adaptiveFormats as Array<Record<string, unknown>> | undefined;
+
+  if (!adaptiveFormats) {
+    throw new Error('No streaming data available');
+  }
+
+  // Find audio-only streams, prefer lowest bitrate to stay under 25MB
+  const audioStreams = adaptiveFormats
+    .filter((f) => {
+      const mimeType = f.mimeType as string | undefined;
+      return mimeType?.startsWith('audio/');
+    })
+    .sort((a, b) => ((a.bitrate as number) || 0) - ((b.bitrate as number) || 0));
+
+  if (audioStreams.length === 0) {
+    throw new Error('No audio streams available');
+  }
+
+  const url = audioStreams[0].url as string | undefined;
+  if (!url) {
+    throw new Error('Audio stream URL not available (may require deciphering)');
+  }
+
+  return url;
+}
+
+export async function extractCaptions(
+  videoId: string,
+  lang: string = 'en'
+): Promise<string> {
+  const playerData = await fetchPlayerResponse(videoId);
+
+  const tracks =
+    (playerData?.captions as Record<string, unknown>)?.playerCaptionsTracklistRenderer as Record<string, unknown> | undefined;
+  const captionTracks = tracks?.captionTracks as Array<Record<string, unknown>> | undefined;
+
+  if (!captionTracks || captionTracks.length === 0) {
     throw new Error('No captions available for this video');
   }
 
-  // Step 2: Find the best matching track
+  // Find the best matching track
   const track =
-    tracks.find((t: { languageCode: string }) => t.languageCode === lang) ||
-    tracks.find((t: { kind: string }) => t.kind === 'asr') ||
-    tracks[0];
+    captionTracks.find((t) => t.languageCode === lang) ||
+    captionTracks.find((t) => t.kind === 'asr') ||
+    captionTracks[0];
 
-  // Step 3: Fetch caption XML
-  const captionResponse = await fetch(track.baseUrl);
+  // Fetch caption XML
+  const captionResponse = await fetch(track.baseUrl as string);
 
   if (!captionResponse.ok) {
     throw new Error(`Caption fetch returned ${captionResponse.status}`);
@@ -98,7 +132,7 @@ export async function extractCaptions(
     throw new Error('Empty caption response');
   }
 
-  // Step 4: Parse XML to plain text
+  // Parse XML to plain text
   const transcript = parseCaptionXml(xml);
 
   if (!transcript) {

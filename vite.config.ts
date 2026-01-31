@@ -7,6 +7,103 @@ function apiProxy(): Plugin {
   return {
     name: 'api-proxy',
     configureServer(server) {
+      // /api/transcribe-whisper - OpenAI Whisper transcription proxy
+      server.middlewares.use('/api/transcribe-whisper', async (req, res) => {
+        if (req.method === 'OPTIONS') {
+          res.statusCode = 204
+          res.end()
+          return
+        }
+
+        res.setHeader('Content-Type', 'application/json')
+
+        if (req.method !== 'POST') {
+          res.statusCode = 405
+          res.end(JSON.stringify({ success: false, error: 'Method not allowed' }))
+          return
+        }
+
+        try {
+          const body = await new Promise<string>((resolve) => {
+            let data = ''
+            req.on('data', (chunk: Buffer) => { data += chunk.toString() })
+            req.on('end', () => resolve(data))
+          })
+
+          const { videoId, openaiKey, lang } = JSON.parse(body)
+
+          if (!videoId || !openaiKey) {
+            res.statusCode = 400
+            res.end(JSON.stringify({ success: false, error: 'Missing videoId or openaiKey' }))
+            return
+          }
+
+          const { fetchPlayerResponse, getAudioStreamUrl } = await import('./api/lib/extract-captions')
+
+          // Get audio stream URL from YouTube
+          const playerData = await fetchPlayerResponse(videoId)
+          const audioUrl = getAudioStreamUrl(playerData)
+
+          // Download audio
+          const audioResponse = await fetch(audioUrl)
+          if (!audioResponse.ok) {
+            throw new Error(`Failed to download audio: ${audioResponse.status}`)
+          }
+
+          const audioBuffer = await audioResponse.arrayBuffer()
+          const MAX_AUDIO_SIZE = 25 * 1024 * 1024
+
+          if (audioBuffer.byteLength > MAX_AUDIO_SIZE) {
+            res.statusCode = 413
+            res.end(JSON.stringify({
+              success: false,
+              error: `Audio file too large (${Math.round(audioBuffer.byteLength / 1024 / 1024)}MB). Whisper limit is 25MB.`,
+            }))
+            return
+          }
+
+          // Send to Whisper API
+          const formData = new FormData()
+          formData.append('file', new Blob([audioBuffer], { type: 'audio/mp4' }), 'audio.m4a')
+          formData.append('model', 'whisper-1')
+          if (lang) {
+            formData.append('language', lang)
+          }
+          formData.append('response_format', 'text')
+
+          const whisperResponse = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${openaiKey}`,
+            },
+            body: formData,
+          })
+
+          if (!whisperResponse.ok) {
+            const errorBody = await whisperResponse.text()
+            let errorMessage = `Whisper API error: ${whisperResponse.status}`
+            try {
+              const parsed = JSON.parse(errorBody)
+              errorMessage = parsed?.error?.message || errorMessage
+            } catch {
+              // use default message
+            }
+            res.statusCode = whisperResponse.status
+            res.end(JSON.stringify({ success: false, error: errorMessage }))
+            return
+          }
+
+          const transcript = await whisperResponse.text()
+
+          res.statusCode = 200
+          res.end(JSON.stringify({ success: true, transcript: transcript.trim(), source: 'whisper' }))
+        } catch (error) {
+          const msg = error instanceof Error ? error.message : 'Unknown error'
+          res.statusCode = 500
+          res.end(JSON.stringify({ success: false, error: msg }))
+        }
+      })
+
       // /api/summarize - Claude summarization proxy
       server.middlewares.use('/api/summarize', async (req, res) => {
         if (req.method === 'OPTIONS') {

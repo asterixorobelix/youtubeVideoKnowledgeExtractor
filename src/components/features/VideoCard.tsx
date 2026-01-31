@@ -16,9 +16,11 @@ interface VideoCardProps {
   summaryResult?: SummaryResult
   onRetryTranscript?: (videoId: string) => void
   onRetrySummary?: (videoId: string) => void
+  onWhisperTranscribe?: (videoId: string) => void
+  hasOpenaiKey?: boolean
 }
 
-export function VideoCard({ video, isSelected, onToggleSelection, transcriptResult, summaryResult, onRetryTranscript, onRetrySummary }: VideoCardProps) {
+export function VideoCard({ video, isSelected, onToggleSelection, transcriptResult, summaryResult, onRetryTranscript, onRetrySummary, onWhisperTranscribe, hasOpenaiKey }: VideoCardProps) {
   // Format the published date to a readable format
   const formatDate = (isoString: string): string => {
     const date = new Date(isoString)
@@ -66,7 +68,12 @@ export function VideoCard({ video, isSelected, onToggleSelection, transcriptResu
           <p className="text-xs text-muted-foreground">
             {formatDate(video.publishedAt)}
           </p>
-          <TranscriptStatus result={transcriptResult} onRetry={onRetryTranscript ? () => onRetryTranscript(video.id) : undefined} />
+          <TranscriptStatus
+            result={transcriptResult}
+            onRetry={onRetryTranscript ? () => onRetryTranscript(video.id) : undefined}
+            onWhisperTranscribe={onWhisperTranscribe ? () => onWhisperTranscribe(video.id) : undefined}
+            hasOpenaiKey={hasOpenaiKey}
+          />
           {summaryResult && (
             <>
               <span className="text-muted-foreground">•</span>

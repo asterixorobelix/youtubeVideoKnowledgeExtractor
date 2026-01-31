@@ -9,6 +9,7 @@ interface ApiKeysContextValue {
   hasKeys: boolean
   hasYoutubeKey: boolean
   hasAnthropicKey: boolean
+  hasOpenaiKey: boolean
 }
 
 const ApiKeysContext = createContext<ApiKeysContextValue | null>(null)
@@ -24,7 +25,7 @@ const getInitialKeys = (): ApiKeys => {
   } catch (error) {
     console.error('Failed to load API keys from localStorage:', error)
   }
-  return { anthropicKey: '', youtubeKey: '' }
+  return { anthropicKey: '', youtubeKey: '', openaiKey: '' }
 }
 
 export function ApiKeysProvider({ children }: { children: ReactNode }) {
@@ -43,15 +44,16 @@ export function ApiKeysProvider({ children }: { children: ReactNode }) {
   }
 
   const clearKeys = () => {
-    setKeysState({ anthropicKey: '', youtubeKey: '' })
+    setKeysState({ anthropicKey: '', youtubeKey: '', openaiKey: '' })
   }
 
   const hasYoutubeKey = keys.youtubeKey.trim() !== ''
   const hasAnthropicKey = keys.anthropicKey.trim() !== ''
-  const hasKeys = hasYoutubeKey || hasAnthropicKey
+  const hasOpenaiKey = keys.openaiKey.trim() !== ''
+  const hasKeys = hasYoutubeKey || hasAnthropicKey || hasOpenaiKey
 
   return (
-    <ApiKeysContext.Provider value={{ keys, setKeys, clearKeys, hasKeys, hasYoutubeKey, hasAnthropicKey }}>
+    <ApiKeysContext.Provider value={{ keys, setKeys, clearKeys, hasKeys, hasYoutubeKey, hasAnthropicKey, hasOpenaiKey }}>
       {children}
     </ApiKeysContext.Provider>
   )
