@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 ## Current Position
 
 Phase: 6 of 6 (Export & Download) — COMPLETE
-Plan: 2 of 2 in current phase
-Status: Phase complete, milestone complete
-Last activity: 2026-01-31 — Phase 6 verified (4/4 must-haves passed)
+Plan: 3 of 3 in current phase
+Status: Phase complete, milestone complete, gap closure complete
+Last activity: 2026-01-31 — Completed 06-03-PLAN.md (race condition fix)
 
-Progress: [██████████] 100% (17/17 plans complete)
+Progress: [██████████] 100% (18/18 plans complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 17
-- Average duration: 6.4 min
-- Total execution time: 1.82 hours
+- Total plans completed: 18
+- Average duration: 6.3 min
+- Total execution time: 1.85 hours
 
 **By Phase:**
 
@@ -32,11 +32,11 @@ Progress: [██████████] 100% (17/17 plans complete)
 | 3. Video Selection | 2/2 | 4 min | 2 min |
 | 4. Transcript Extraction | 3/3 | 5.2 min | 1.7 min |
 | 5. Claude Summarization | 3/3 | 65 min | 21.7 min |
-| 6. Export & Download | 2/2 | 3.8 min | 1.9 min |
+| 6. Export & Download | 3/3 | 5.5 min | 1.8 min |
 
 **Recent Trend:**
-- Last 5 plans: 05-01 (62 min), 05-02 (3 min), 06-01 (2 min), 06-02 (1.8 min)
-- Trend: UI integration plans execute very quickly (<2 min), SDK setup longer
+- Last 5 plans: 05-02 (3 min), 06-01 (2 min), 06-02 (1.8 min), 06-03 (1.7 min)
+- Trend: Gap closure and UI integration plans execute very quickly (<2 min), SDK setup longer
 
 *Updated after each plan completion*
 
@@ -132,6 +132,12 @@ Recent decisions affecting current work:
 - Export errors display below button (inline, not modal)
 - Fixed pre-existing bug: missing resetTranscript in clear channel handler
 
+**From 06-03:**
+- Derive phase='complete' from state instead of explicit dispatch to eliminate race condition
+- Use totalCount field to track expected videos and calculate completion in same action as result update
+- State transitions derived from data: phase='complete' set when processedCount >= totalCount
+- Atomic updates: phase and count changes happen in same reducer action for consistency
+
 ### Pending Todos
 
 None yet.
@@ -144,10 +150,10 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-31T09:00:00Z
-Stopped at: Phase 6 complete, milestone complete — all 6 phases verified
+Last session: 2026-01-31T07:29:20Z
+Stopped at: Completed 06-03-PLAN.md (gap closure - race condition fix)
 Resume file: None
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-31T09:00:00Z*
+*Last updated: 2026-01-31T07:29:20Z*

@@ -114,7 +114,7 @@ Plans:
 Plans:
 - [x] 06-01-PLAN.md — TDD: Export service (markdown generation, filename sanitization, zip creation)
 - [x] 06-02-PLAN.md — useExport hook, ExportButton component, and App.tsx wiring
-- [ ] 06-03-PLAN.md — Gap closure: Fix summarization completion race condition
+- [x] 06-03-PLAN.md — Gap closure: Fix summarization completion race condition
 
 ## Progress
 
@@ -128,7 +128,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 3. Video Selection | 2/2 | Complete | 2026-01-29 |
 | 4. Transcript Extraction | 3/3 | Complete | 2026-01-30 |
 | 5. Claude Summarization | 3/3 | Complete | 2026-01-30 |
-| 6. Export & Download | 2/3 | In Progress | 2026-01-31 |
+| 6. Export & Download | 3/3 | Complete | 2026-01-31 |
 
 ---
 *Created: 2026-01-29*
