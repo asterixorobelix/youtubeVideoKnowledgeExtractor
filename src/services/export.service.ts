@@ -54,10 +54,24 @@ export function sanitizeFilename(input: string): string {
 }
 
 /**
- * Generates a collision-safe filename with video ID prefix
+ * Generates a collision-safe markdown filename.
+ *
+ * Naming convention:
+ *   {channel_name}-{video_id}_{sanitized_title}.md
+ *
+ * Examples:
+ *   Matthew_Berman-fmNzXCp7zA_Clawdbot_just_got_scary_(Moltbook).md
+ *   3Blue1Brown-abc123_But_what_is_a_neural_network.md
+ *
+ * Falls back to {video_id}_{sanitized_title}.md when channel name is unavailable.
+ * The video ID guarantees uniqueness even if titles collide.
  */
-export function generateFilename(video: VideoItem): string {
+export function generateFilename(video: VideoItem, channelName?: string): string {
   const sanitizedTitle = sanitizeFilename(video.title);
+  if (channelName) {
+    const sanitizedChannel = sanitizeFilename(channelName);
+    return `${sanitizedChannel}-${video.id}_${sanitizedTitle}.md`;
+  }
   return `${video.id}_${sanitizedTitle}.md`;
 }
 
@@ -124,14 +138,15 @@ export function generateMarkdown(video: VideoItem, summary: Summary): string {
  * Exports summaries to a zip file and triggers browser download
  */
 export async function exportSummariesToZip(
-  summaries: Array<{ video: VideoItem; summary: Summary }>
+  summaries: Array<{ video: VideoItem; summary: Summary }>,
+  channelName?: string
 ): Promise<void> {
   const zip = new JSZip();
   const usedFilenames = new Set<string>();
 
   // Add markdown files to zip
   summaries.forEach(({ video, summary }) => {
-    let filename = generateFilename(video);
+    let filename = generateFilename(video, channelName);
 
     // Handle filename collisions (paranoid safety)
     let counter = 1;
@@ -153,8 +168,13 @@ export async function exportSummariesToZip(
     compressionOptions: { level: 6 },
   });
 
-  // Trigger download with timestamped filename
+  // Zip naming convention:
+  //   {channel_name}-summaries-{YYYY-MM-DD}.zip
+  //   e.g. Matthew_Berman-summaries-2026-01-31.zip
+  // Falls back to youtube-summaries-{YYYY-MM-DD}.zip without channel name.
   const today = new Date().toISOString().split('T')[0];
-  const zipFilename = `youtube-summaries-${today}.zip`;
+  const zipFilename = channelName
+    ? `${sanitizeFilename(channelName)}-summaries-${today}.zip`
+    : `youtube-summaries-${today}.zip`;
   saveAs(blob, zipFilename);
 }

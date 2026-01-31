@@ -10,7 +10,7 @@ export function useExport() {
   const [error, setError] = useState<string | null>(null);
 
   const exportSummaries = useCallback(
-    async (videos: VideoItem[], summaryResults: Map<string, SummaryResult>) => {
+    async (videos: VideoItem[], summaryResults: Map<string, SummaryResult>, channelName?: string) => {
       try {
         setStatus('generating');
         setError(null);
@@ -31,7 +31,7 @@ export function useExport() {
         }
 
         // Generate and download zip
-        await exportSummariesToZip(completedSummaries);
+        await exportSummariesToZip(completedSummaries, channelName);
 
         // Show success state
         setStatus('success');
