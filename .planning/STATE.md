@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 ## Current Position
 
 Phase: 6 of 6 (Export & Download) — IN PROGRESS
-Plan: 1 of 3 in current phase
+Plan: 2 of 3 in current phase
 Status: In progress
-Last activity: 2026-01-31 — Completed 06-01-PLAN.md
+Last activity: 2026-01-31 — Completed 06-02-PLAN.md
 
-Progress: [████████░░] 76% (13/17 plans complete)
+Progress: [████████░░] 82% (14/17 plans complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 13
-- Average duration: 7.8 min
-- Total execution time: 1.75 hours
+- Total plans completed: 14
+- Average duration: 7.3 min
+- Total execution time: 1.78 hours
 
 **By Phase:**
 
@@ -32,11 +32,11 @@ Progress: [████████░░] 76% (13/17 plans complete)
 | 3. Video Selection | 2/2 | 4 min | 2 min |
 | 4. Transcript Extraction | 3/3 | 5.2 min | 1.7 min |
 | 5. Claude Summarization | 2/4 | 65 min | 32.5 min |
-| 6. Export & Download | 1/3 | 2 min | 2 min |
+| 6. Export & Download | 2/3 | 3.8 min | 1.9 min |
 
 **Recent Trend:**
-- Last 5 plans: 04-03 (2.6 min), 05-01 (62 min), 05-02 (3 min), 06-01 (2 min)
-- Trend: TDD plans execute quickly, SDK/infrastructure setup takes longer
+- Last 5 plans: 05-01 (62 min), 05-02 (3 min), 06-01 (2 min), 06-02 (1.8 min)
+- Trend: UI integration plans execute very quickly (<2 min), SDK setup longer
 
 *Updated after each plan completion*
 
@@ -125,6 +125,13 @@ Recent decisions affecting current work:
 - Windows reserved name handling with underscore prefix (CON, PRN, etc.)
 - Markdown format: title, metadata, key points, topics, notable quotes with context
 
+**From 06-02:**
+- Four-state export lifecycle (idle/generating/success/error) with 2s auto-reset after success
+- Export filters to only completed summaries (status='completed' AND summary exists)
+- Export button visibility: only when summaryPhase='complete' AND completedCount > 0
+- Export errors display below button (inline, not modal)
+- Fixed pre-existing bug: missing resetTranscript in clear channel handler
+
 ### Pending Todos
 
 None yet.
@@ -137,10 +144,10 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-31T08:54:29Z
-Stopped at: Completed 06-01-PLAN.md (Export service with markdown generation and zip)
+Last session: 2026-01-31T07:00:26Z
+Stopped at: Completed 06-02-PLAN.md (Export UI integration with button and states)
 Resume file: None
 
 ---
 *Created: 2026-01-29*
-*Last updated: 2026-01-31T08:54:29Z*
+*Last updated: 2026-01-31T07:00:26Z*
