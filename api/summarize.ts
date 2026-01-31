@@ -70,7 +70,7 @@ export default async function handler(request: Request) {
       // Count tokens for cost estimation
       const countResult = await Promise.race([
         client.messages.countTokens({
-          model: 'claude-sonnet-4-5-20250514',
+          model: 'claude-sonnet-4-20250514',
           system: SYSTEM_PROMPT,
           messages: [
             {
@@ -95,7 +95,7 @@ export default async function handler(request: Request) {
       // Call Claude API for summarization
       const response = await Promise.race([
         client.messages.create({
-          model: 'claude-sonnet-4-5-20250514',
+          model: 'claude-sonnet-4-20250514',
           max_tokens: 4096,
           system: SYSTEM_PROMPT,
           messages: [

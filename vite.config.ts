@@ -52,7 +52,7 @@ Return ONLY valid JSON, no markdown formatting or code blocks.`
 
           if (action === 'count-tokens') {
             const countResult = await client.messages.countTokens({
-              model: 'claude-sonnet-4-5-20250514',
+              model: 'claude-sonnet-4-20250514',
               system: SYSTEM_PROMPT,
               messages: [{ role: 'user', content: transcript }],
             })
@@ -63,7 +63,7 @@ Return ONLY valid JSON, no markdown formatting or code blocks.`
 
           if (action === 'summarize') {
             const response = await client.messages.create({
-              model: 'claude-sonnet-4-5-20250514',
+              model: 'claude-sonnet-4-20250514',
               max_tokens: 4096,
               system: SYSTEM_PROMPT,
               messages: [{ role: 'user', content: transcript }],

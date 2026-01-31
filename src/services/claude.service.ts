@@ -40,7 +40,10 @@ async function retryWithBackoff<T>(
         message.includes('rate limit') ||
         message.includes('timeout') ||
         message.includes('408') ||
-        message.includes('5');
+        message.includes('500') ||
+        message.includes('502') ||
+        message.includes('503') ||
+        message.includes('529');
 
       if (!shouldRetry) throw error;
     }
