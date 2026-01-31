@@ -8,7 +8,9 @@ import { useChannelVideos } from '@/hooks/useChannelVideos'
 import { useVideoSelection } from '@/hooks/useVideoSelection'
 import { useTranscriptExtraction } from '@/hooks/useTranscriptExtraction'
 import { useSummarization } from '@/hooks/useSummarization'
+import { useExport } from '@/hooks/useExport'
 import { CostEstimator } from '@/components/features/CostEstimator'
+import { ExportButton } from '@/components/features/ExportButton'
 import { Button } from '@/components/ui/button'
 import { Settings, Loader2, X } from 'lucide-react'
 
@@ -51,6 +53,7 @@ function AppContent() {
     errorCount,
     getResult: getTranscriptResult,
     results: transcriptResults,
+    reset: resetTranscript,
   } = useTranscriptExtraction()
 
   // Summarization state
@@ -66,7 +69,22 @@ function AppContent() {
     retryVideo,
     reset: resetSummary,
     getResult: getSummaryResult,
+    results: summaryResults,
   } = useSummarization(keys.anthropicKey)
+
+  // Export state
+  const {
+    status: exportStatus,
+    error: exportError,
+    isGenerating,
+    exportSummaries,
+    reset: resetExport,
+  } = useExport()
+
+  // Export handler
+  const handleExport = () => {
+    exportSummaries(videos, summaryResults)
+  }
 
   // Show API key form if no YouTube key configured OR if settings is opened
   if (!hasYoutubeKey || showSettings) {
@@ -162,8 +180,9 @@ function AppContent() {
                 onClick={() => {
                   clearChannel()
                   clearSelection()
-                  reset()
+                  resetTranscript()
                   resetSummary()
+                  resetExport()
                 }}
                 title="Clear channel"
                 className="text-muted-foreground hover:text-foreground"
@@ -263,19 +282,42 @@ function AppContent() {
 
             {/* Completion summary */}
             {summaryPhase === 'complete' && (
-              <div className="p-4 rounded-lg border bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800 text-center space-y-2">
-                <p className="text-sm font-medium text-green-900 dark:text-green-100">
-                  {completedCount} summar{completedCount !== 1 ? 'ies' : 'y'} ready
-                  {failedCount > 0 && `, ${failedCount} failed`}
-                </p>
-                {failedCount > 0 && (
-                  <p className="text-xs text-green-700 dark:text-green-300">
-                    Click retry on failed videos below
+              <div className="space-y-4">
+                <div className="p-4 rounded-lg border bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800 text-center space-y-2">
+                  <p className="text-sm font-medium text-green-900 dark:text-green-100">
+                    {completedCount} summar{completedCount !== 1 ? 'ies' : 'y'} ready
+                    {failedCount > 0 && `, ${failedCount} failed`}
                   </p>
+                  {failedCount > 0 && (
+                    <p className="text-xs text-green-700 dark:text-green-300">
+                      Click retry on failed videos below
+                    </p>
+                  )}
+                  <p className="text-xs text-green-700 dark:text-green-300">
+                    Total cost: ${totalActualCost.toFixed(4)}
+                  </p>
+                </div>
+
+                {/* Export button - appears when at least one summary completed */}
+                {completedCount > 0 && (
+                  <div className="flex justify-center">
+                    <ExportButton
+                      onExport={handleExport}
+                      isGenerating={isGenerating}
+                      isSuccess={exportStatus === 'success'}
+                      completedCount={completedCount}
+                    />
+                  </div>
                 )}
-                <p className="text-xs text-green-700 dark:text-green-300">
-                  Total cost: ${totalActualCost.toFixed(4)}
-                </p>
+
+                {/* Export error display */}
+                {exportError && (
+                  <div className="p-4 rounded-lg border bg-red-50 dark:bg-red-950/20 border-red-200 dark:border-red-800 text-center">
+                    <p className="text-sm text-red-900 dark:text-red-100">
+                      Export failed: {exportError}
+                    </p>
+                  </div>
+                )}
               </div>
             )}
 
