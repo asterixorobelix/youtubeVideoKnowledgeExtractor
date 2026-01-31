@@ -83,7 +83,7 @@ function AppContent() {
 
   // Export handler
   const handleExport = () => {
-    exportSummaries(videos, summaryResults)
+    exportSummaries(videos, summaryResults, channel?.title)
   }
 
   // Show API key form if no YouTube key configured OR if settings is opened
@@ -253,6 +253,18 @@ function AppContent() {
               </div>
             )}
 
+            {/* Estimating cost - loading indicator */}
+            {summaryPhase === 'estimating' && (
+              <div className="p-4 rounded-lg border bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800 text-center">
+                <div className="flex items-center justify-center gap-2">
+                  <Loader2 className="h-4 w-4 animate-spin text-blue-600" />
+                  <p className="text-sm font-medium text-blue-900 dark:text-blue-100">
+                    Estimating cost...
+                  </p>
+                </div>
+              </div>
+            )}
+
             {/* Cost estimation card */}
             {summaryPhase === 'estimated' && costEstimate && (
               <div className="max-w-2xl mx-auto">
@@ -306,6 +318,7 @@ function AppContent() {
                       isGenerating={isGenerating}
                       isSuccess={exportStatus === 'success'}
                       completedCount={completedCount}
+                      channelName={channel?.title}
                     />
                   </div>
                 )}

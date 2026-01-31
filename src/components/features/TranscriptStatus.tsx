@@ -34,12 +34,14 @@ export function TranscriptStatus({ result, onRetry }: TranscriptStatusProps) {
         </div>
       )
 
-    case 'error':
+    case 'error': {
+      const isNoCaptions = result.error?.toLowerCase().includes('no captions')
+        || result.error?.toLowerCase().includes('not available')
       return (
         <div className="flex items-center gap-1 text-red-500 text-xs">
           <X className="h-3 w-3 flex-shrink-0" />
-          <span>{result.error || 'Error'}</span>
-          {onRetry && (
+          <span>{isNoCaptions ? 'No captions available' : (result.error || 'Error')}</span>
+          {onRetry && !isNoCaptions && (
             <button
               onClick={(e) => { e.stopPropagation(); onRetry() }}
               className="inline-flex items-center gap-0.5 ml-1 px-1.5 py-0.5 rounded bg-red-500/10 hover:bg-red-500/20 text-red-500 hover:text-red-400 transition-colors"
@@ -50,6 +52,7 @@ export function TranscriptStatus({ result, onRetry }: TranscriptStatusProps) {
           )}
         </div>
       )
+    }
 
     default:
       return null
