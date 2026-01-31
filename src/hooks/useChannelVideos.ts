@@ -19,6 +19,7 @@ interface UseChannelVideosState {
 interface UseChannelVideosReturn extends UseChannelVideosState {
   fetchChannel: (url: string) => Promise<void>
   loadMore: () => Promise<void>
+  clearChannel: () => void
 }
 
 export function useChannelVideos(): UseChannelVideosReturn {
@@ -135,9 +136,24 @@ export function useChannelVideos(): UseChannelVideosReturn {
     }
   }, [state.nextPageToken, state.channel, keys.youtubeKey])
 
+  const clearChannel = useCallback(() => {
+    setState({
+      channel: null,
+      videos: [],
+      nextPageToken: null,
+      totalResults: 0,
+      isLoading: false,
+      isLoadingMore: false,
+      error: null,
+      isQuotaExhausted: false,
+      quotaResetTime: null,
+    })
+  }, [])
+
   return {
     ...state,
     fetchChannel,
     loadMore,
+    clearChannel,
   }
 }

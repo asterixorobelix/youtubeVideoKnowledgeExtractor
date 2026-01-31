@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { X } from 'lucide-react'
 
 const channelInputSchema = z.object({
   url: z.string().min(1, 'Please enter a channel URL'),
@@ -21,10 +22,14 @@ export function ChannelInput({ onSubmit, isLoading, error }: ChannelInputProps) 
   const {
     register,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<ChannelInputForm>({
     resolver: zodResolver(channelInputSchema),
   })
+
+  const urlValue = watch('url')
 
   const handleFormSubmit = (data: ChannelInputForm) => {
     onSubmit(data.url)
@@ -35,13 +40,24 @@ export function ChannelInput({ onSubmit, isLoading, error }: ChannelInputProps) 
       <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="channel-url">YouTube Channel URL</Label>
-          <Input
-            id="channel-url"
-            type="text"
-            placeholder="Paste a YouTube channel URL (e.g., youtube.com/@MrBeast)"
-            disabled={isLoading}
-            {...register('url')}
-          />
+          <div className="relative">
+            <Input
+              id="channel-url"
+              type="text"
+              placeholder="Paste a YouTube channel URL (e.g., youtube.com/@MrBeast)"
+              disabled={isLoading}
+              {...register('url')}
+            />
+            {urlValue && !isLoading && (
+              <button
+                type="button"
+                onClick={() => setValue('url', '')}
+                className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-sm text-muted-foreground hover:text-foreground"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
+          </div>
           {errors.url && (
             <p className="text-sm text-destructive">{errors.url.message}</p>
           )}

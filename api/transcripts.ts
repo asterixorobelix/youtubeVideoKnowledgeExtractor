@@ -1,4 +1,4 @@
-import { getSubtitles } from 'youtube-caption-extractor';
+import { extractCaptions } from './lib/extract-captions';
 
 export const config = { runtime: 'edge' };
 
@@ -38,18 +38,11 @@ export default async function handler(request: Request) {
       setTimeout(() => reject(new Error('Request timeout')), 15000);
     });
 
-    // Fetch subtitles with timeout
-    const subtitles = await Promise.race([
-      getSubtitles({ videoID: videoId, lang }),
+    // Extract captions with timeout
+    const transcript = await Promise.race([
+      extractCaptions(videoId, lang),
       timeoutPromise,
     ]);
-
-    // Join subtitle text segments
-    const transcript = subtitles
-      .map((s) => s.text)
-      .join(' ')
-      .replace(/\s+/g, ' ')
-      .trim();
 
     return new Response(
       JSON.stringify({
@@ -62,7 +55,6 @@ export default async function handler(request: Request) {
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
 
-    // Differentiate timeout from no captions
     if (errorMessage === 'Request timeout') {
       return new Response(
         JSON.stringify({
@@ -73,11 +65,10 @@ export default async function handler(request: Request) {
       );
     }
 
-    // No captions available or other caption extraction error
     return new Response(
       JSON.stringify({
         success: false,
-        error: 'No captions available',
+        error: errorMessage,
       }),
       { status: 404, headers: corsHeaders }
     );

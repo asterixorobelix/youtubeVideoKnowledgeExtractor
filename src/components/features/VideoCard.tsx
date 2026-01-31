@@ -14,10 +14,11 @@ interface VideoCardProps {
   onToggleSelection: (id: string) => void
   transcriptResult?: TranscriptResult
   summaryResult?: SummaryResult
+  onRetryTranscript?: (videoId: string) => void
   onRetrySummary?: (videoId: string) => void
 }
 
-export function VideoCard({ video, isSelected, onToggleSelection, transcriptResult, summaryResult, onRetrySummary }: VideoCardProps) {
+export function VideoCard({ video, isSelected, onToggleSelection, transcriptResult, summaryResult, onRetryTranscript, onRetrySummary }: VideoCardProps) {
   // Format the published date to a readable format
   const formatDate = (isoString: string): string => {
     const date = new Date(isoString)
@@ -65,7 +66,7 @@ export function VideoCard({ video, isSelected, onToggleSelection, transcriptResu
           <p className="text-xs text-muted-foreground">
             {formatDate(video.publishedAt)}
           </p>
-          <TranscriptStatus result={transcriptResult} />
+          <TranscriptStatus result={transcriptResult} onRetry={onRetryTranscript ? () => onRetryTranscript(video.id) : undefined} />
           {summaryResult && (
             <>
               <span className="text-muted-foreground">•</span>

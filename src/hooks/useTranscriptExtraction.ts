@@ -1,9 +1,10 @@
 import { useState, useCallback, useMemo } from 'react'
-import { fetchTranscripts } from '@/services/transcript.service'
+import { fetchTranscripts, fetchSingleTranscript } from '@/services/transcript.service'
 import type { TranscriptResult } from '@/types/transcript'
 
 interface UseTranscriptExtractionReturn {
   extractTranscripts: (videoIds: string[]) => void
+  retryTranscript: (videoId: string) => void
   results: Map<string, TranscriptResult>
   isExtracting: boolean
   extractionComplete: boolean
@@ -78,6 +79,22 @@ export function useTranscriptExtraction(): UseTranscriptExtractionReturn {
     [results]
   )
 
+  const retryTranscript = useCallback(async (videoId: string) => {
+    // Set this video to fetching
+    setResults((prev) => {
+      const next = new Map(prev)
+      next.set(videoId, { videoId, status: 'fetching' })
+      return next
+    })
+
+    const result = await fetchSingleTranscript(videoId)
+    setResults((prev) => {
+      const next = new Map(prev)
+      next.set(videoId, result)
+      return next
+    })
+  }, [])
+
   const reset = useCallback(() => {
     setResults(new Map())
     setIsExtracting(false)
@@ -86,6 +103,7 @@ export function useTranscriptExtraction(): UseTranscriptExtractionReturn {
 
   return {
     extractTranscripts,
+    retryTranscript,
     results,
     isExtracting,
     extractionComplete,

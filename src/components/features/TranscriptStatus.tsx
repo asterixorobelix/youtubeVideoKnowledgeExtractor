@@ -1,11 +1,12 @@
-import { Check, X, Loader2, Minus } from 'lucide-react'
+import { Check, X, Loader2, Minus, RotateCw } from 'lucide-react'
 import type { TranscriptResult } from '@/types/transcript'
 
 interface TranscriptStatusProps {
   result: TranscriptResult | undefined
+  onRetry?: () => void
 }
 
-export function TranscriptStatus({ result }: TranscriptStatusProps) {
+export function TranscriptStatus({ result, onRetry }: TranscriptStatusProps) {
   if (!result) {
     return null
   }
@@ -35,9 +36,18 @@ export function TranscriptStatus({ result }: TranscriptStatusProps) {
 
     case 'error':
       return (
-        <div className="flex items-center gap-1 text-red-600 text-xs">
-          <X className="h-3 w-3" />
+        <div className="flex items-center gap-1 text-red-500 text-xs">
+          <X className="h-3 w-3 flex-shrink-0" />
           <span>{result.error || 'Error'}</span>
+          {onRetry && (
+            <button
+              onClick={(e) => { e.stopPropagation(); onRetry() }}
+              className="inline-flex items-center gap-0.5 ml-1 px-1.5 py-0.5 rounded bg-red-500/10 hover:bg-red-500/20 text-red-500 hover:text-red-400 transition-colors"
+            >
+              <RotateCw className="h-3 w-3" />
+              <span>Retry</span>
+            </button>
+          )}
         </div>
       )
 

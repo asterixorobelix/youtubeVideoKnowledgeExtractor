@@ -17,9 +17,9 @@ export async function fetchTranscripts(
   return Promise.all(tasks);
 }
 
-async function fetchSingleTranscript(
+export async function fetchSingleTranscript(
   videoId: string,
-  lang: string
+  lang: string = 'en'
 ): Promise<TranscriptResult> {
   try {
     const response = await fetch(

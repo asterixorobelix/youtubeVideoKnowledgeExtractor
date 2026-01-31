@@ -18,6 +18,7 @@ interface VideoListProps {
   onClearSelection: () => void
   getTranscriptResult?: (videoId: string) => TranscriptResult | undefined
   getSummaryResult?: (videoId: string) => SummaryResult | undefined
+  onRetryTranscript?: (videoId: string) => void
   onRetrySummary?: (videoId: string) => void
 }
 
@@ -34,6 +35,7 @@ export function VideoList({
   onClearSelection,
   getTranscriptResult,
   getSummaryResult,
+  onRetryTranscript,
   onRetrySummary,
 }: VideoListProps) {
   if (videos.length === 0) {
@@ -69,6 +71,7 @@ export function VideoList({
             onToggleSelection={onToggleSelection}
             transcriptResult={getTranscriptResult?.(video.id)}
             summaryResult={getSummaryResult?.(video.id)}
+            onRetryTranscript={onRetryTranscript}
             onRetrySummary={onRetrySummary}
           />
         ))}

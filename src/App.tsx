@@ -10,7 +10,7 @@ import { useTranscriptExtraction } from '@/hooks/useTranscriptExtraction'
 import { useSummarization } from '@/hooks/useSummarization'
 import { CostEstimator } from '@/components/features/CostEstimator'
 import { Button } from '@/components/ui/button'
-import { Settings, Loader2 } from 'lucide-react'
+import { Settings, Loader2, X } from 'lucide-react'
 
 function AppContent() {
   const { hasKeys, hasYoutubeKey, keys } = useApiKeys()
@@ -27,6 +27,7 @@ function AppContent() {
     quotaResetTime,
     fetchChannel,
     loadMore,
+    clearChannel,
   } = useChannelVideos()
 
   // Video selection state
@@ -43,6 +44,7 @@ function AppContent() {
   // Transcript extraction state
   const {
     extractTranscripts,
+    retryTranscript,
     isExtracting,
     extractionComplete,
     successCount,
@@ -148,16 +150,30 @@ function AppContent() {
                 alt={channel.title}
                 className="w-12 h-12 rounded-full"
               />
-              <div>
+              <div className="flex-1">
                 <h2 className="font-semibold">{channel.title}</h2>
                 <p className="text-sm text-muted-foreground">
                   {totalResults.toLocaleString()} videos
                 </p>
               </div>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => {
+                  clearChannel()
+                  clearSelection()
+                  reset()
+                  resetSummary()
+                }}
+                title="Clear channel"
+                className="text-muted-foreground hover:text-foreground"
+              >
+                <X className="h-4 w-4" />
+              </Button>
             </div>
 
-            {/* Extract Transcripts button - appears after selection */}
-            {selectionCount > 0 && !extractionComplete && (
+            {/* Extract Transcripts button - appears when new videos selected */}
+            {selectionCount > 0 && !isExtracting && (
               <div className="flex justify-center">
                 <Button
                   onClick={() => extractTranscripts(getSelectedIds())}
@@ -178,10 +194,15 @@ function AppContent() {
 
             {/* Extraction summary - appears after extraction completes */}
             {extractionComplete && (
-              <div className="p-4 rounded-lg border bg-muted/50 text-center">
+              <div className={`p-4 rounded-lg border text-center space-y-2 ${errorCount > 0 && successCount === 0 ? 'bg-red-50 dark:bg-red-950/20 border-red-200 dark:border-red-800' : 'bg-muted/50'}`}>
                 <p className="text-sm font-medium">
-                  {successCount} transcript{successCount !== 1 ? 's' : ''} ready, {errorCount} failed
+                  {successCount} transcript{successCount !== 1 ? 's' : ''} ready{errorCount > 0 ? `, ${errorCount} failed` : ''}
                 </p>
+                {errorCount > 0 && (
+                  <p className="text-xs text-muted-foreground">
+                    Some videos may not have captions available. Check individual videos below for retry options.
+                  </p>
+                )}
               </div>
             )}
 
@@ -271,6 +292,7 @@ function AppContent() {
               onClearSelection={clearSelection}
               getTranscriptResult={getTranscriptResult}
               getSummaryResult={getSummaryResult}
+              onRetryTranscript={retryTranscript}
               onRetrySummary={(videoId) => {
                 const transcript = transcriptResults.get(videoId)?.transcript
                 if (transcript) {
