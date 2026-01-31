@@ -16,16 +16,18 @@ const ApiKeysContext = createContext<ApiKeysContextValue | null>(null)
 
 const STORAGE_KEY = 'api-keys'
 
+const DEFAULTS: ApiKeys = { anthropicKey: '', youtubeKey: '', openaiKey: '' }
+
 const getInitialKeys = (): ApiKeys => {
   try {
     const stored = localStorage.getItem(STORAGE_KEY)
     if (stored) {
-      return JSON.parse(stored)
+      return { ...DEFAULTS, ...JSON.parse(stored) }
     }
   } catch (error) {
     console.error('Failed to load API keys from localStorage:', error)
   }
-  return { anthropicKey: '', youtubeKey: '', openaiKey: '' }
+  return { ...DEFAULTS }
 }
 
 export function ApiKeysProvider({ children }: { children: ReactNode }) {
