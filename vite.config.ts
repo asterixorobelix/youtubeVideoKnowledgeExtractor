@@ -243,7 +243,8 @@ Return ONLY valid JSON, no markdown formatting or code blocks.`
             res.statusCode = 500
             res.end(JSON.stringify({ success: false, error: 'Request timed out after 15 seconds' }))
           } else {
-            res.statusCode = 404
+            const status = msg.includes('returned 429') ? 429 : 404
+            res.statusCode = status
             res.end(JSON.stringify({ success: false, error: msg }))
           }
         }

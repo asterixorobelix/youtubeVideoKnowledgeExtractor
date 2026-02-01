@@ -39,15 +39,13 @@ export function useTranscriptExtraction(): UseTranscriptExtractionReturn {
       })
       setResults(fetchingResults)
 
-      // fetchTranscripts handles concurrency internally with p-limit
-      const transcriptResults = await fetchTranscripts(videoIds)
-
-      // Convert array to Map
-      const finalResults = new Map<string, TranscriptResult>()
-      transcriptResults.forEach((result) => {
-        finalResults.set(result.videoId, result)
+      await fetchTranscripts(videoIds, 'en', (result) => {
+        setResults((prev) => {
+          const next = new Map(prev)
+          next.set(result.videoId, result)
+          return next
+        })
       })
-      setResults(finalResults)
     } catch (error) {
       // Handle network-level errors
       const errorResults = new Map<string, TranscriptResult>()

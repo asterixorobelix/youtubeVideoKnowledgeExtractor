@@ -1,10 +1,8 @@
-import pLimit from 'p-limit';
 import type { TranscriptResult } from '@/types/transcript';
 
-const CONCURRENT_LIMIT = 2;
-const STAGGER_DELAY_MS = 500;
-const MAX_RETRIES = 3;
-const BASE_BACKOFF_MS = 2000;
+const DELAY_BETWEEN_MS = 1500;
+const MAX_RETRIES = 2;
+const BASE_BACKOFF_MS = 10000;
 const PROXY_BASE = '/api/transcripts';
 const WHISPER_BASE = '/api/transcribe-whisper';
 
@@ -14,21 +12,19 @@ function delay(ms: number): Promise<void> {
 
 export async function fetchTranscripts(
   videoIds: string[],
-  lang: string = 'en'
+  lang: string = 'en',
+  onProgress?: (result: TranscriptResult) => void
 ): Promise<TranscriptResult[]> {
-  const limit = pLimit(CONCURRENT_LIMIT);
-
-  const tasks = videoIds.map((videoId, index) =>
-    limit(async () => {
-      // Stagger requests to avoid bursting
-      if (index > 0) {
-        await delay(STAGGER_DELAY_MS * (index % CONCURRENT_LIMIT));
-      }
-      return fetchSingleTranscript(videoId, lang);
-    })
-  );
-
-  return Promise.all(tasks);
+  const results: TranscriptResult[] = [];
+  for (const videoId of videoIds) {
+    if (results.length > 0) {
+      await delay(DELAY_BETWEEN_MS);
+    }
+    const result = await fetchSingleTranscript(videoId, lang);
+    results.push(result);
+    onProgress?.(result);
+  }
+  return results;
 }
 
 export async function fetchSingleTranscript(
@@ -49,8 +45,7 @@ export async function fetchSingleTranscript(
     const errorMsg = data.error || 'Failed to extract captions';
 
     // Retry on rate limit (429) with exponential backoff
-    const isRateLimited = response.status === 429 || errorMsg.includes('429');
-    if (isRateLimited && retries > 0) {
+    if (response.status === 429 && retries > 0) {
       const backoff = BASE_BACKOFF_MS * Math.pow(2, MAX_RETRIES - retries);
       await delay(backoff);
       return fetchSingleTranscript(videoId, lang, retries - 1);
