@@ -65,12 +65,13 @@ export default async function handler(request: Request) {
       );
     }
 
+    const status = errorMessage.includes('returned 429') ? 429 : 404;
     return new Response(
       JSON.stringify({
         success: false,
         error: errorMessage,
       }),
-      { status: 404, headers: corsHeaders }
+      { status, headers: corsHeaders }
     );
   }
 }
