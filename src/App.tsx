@@ -13,6 +13,8 @@ import { CostEstimator } from '@/components/features/CostEstimator'
 import { ExportButton } from '@/components/features/ExportButton'
 import { Button } from '@/components/ui/button'
 import { Settings, Loader2, X } from 'lucide-react'
+import { generateMarkdown, generateFilename } from '@/services/export.service'
+import { saveAs } from 'file-saver'
 
 function AppContent() {
   const { hasKeys, hasYoutubeKey, hasOpenaiKey, keys } = useApiKeys()
@@ -85,6 +87,18 @@ function AppContent() {
   // Export handler
   const handleExport = () => {
     exportSummaries(videos, summaryResults, channel?.title)
+  }
+
+  // Per-video summary download handler
+  const handleDownloadSummary = (videoId: string) => {
+    const result = getSummaryResult(videoId)
+    if (result?.status !== 'completed' || !result.summary) return
+    const video = videos.find(v => v.id === videoId)
+    if (!video) return
+    const markdown = generateMarkdown(video, result.summary)
+    const filename = generateFilename(video, channel?.title)
+    const blob = new Blob([markdown], { type: 'text/markdown;charset=utf-8' })
+    saveAs(blob, filename)
   }
 
   // Show API key form if no YouTube key configured OR if settings is opened
@@ -351,6 +365,7 @@ function AppContent() {
               onRetryTranscript={retryTranscript}
               onWhisperTranscribe={(videoId) => whisperTranscript(videoId, keys.openaiKey)}
               hasOpenaiKey={hasOpenaiKey}
+              onDownloadSummary={handleDownloadSummary}
               onRetrySummary={(videoId) => {
                 const transcript = transcriptResults.get(videoId)?.transcript
                 if (transcript) {

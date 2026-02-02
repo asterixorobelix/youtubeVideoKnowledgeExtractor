@@ -20,6 +20,7 @@ interface VideoListProps {
   getSummaryResult?: (videoId: string) => SummaryResult | undefined
   onRetryTranscript?: (videoId: string) => void
   onRetrySummary?: (videoId: string) => void
+  onDownloadSummary?: (videoId: string) => void
   onWhisperTranscribe?: (videoId: string) => void
   hasOpenaiKey?: boolean
 }
@@ -39,6 +40,7 @@ export function VideoList({
   getSummaryResult,
   onRetryTranscript,
   onRetrySummary,
+  onDownloadSummary,
   onWhisperTranscribe,
   hasOpenaiKey,
 }: VideoListProps) {
@@ -77,6 +79,7 @@ export function VideoList({
             summaryResult={getSummaryResult?.(video.id)}
             onRetryTranscript={onRetryTranscript}
             onRetrySummary={onRetrySummary}
+            onDownloadSummary={onDownloadSummary}
             onWhisperTranscribe={onWhisperTranscribe}
             hasOpenaiKey={hasOpenaiKey}
           />
